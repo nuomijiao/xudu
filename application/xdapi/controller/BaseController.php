@@ -38,7 +38,7 @@ class BaseController extends Controller
         } else {
             $return['msg'] = '操作成功';
         }
-        $return['response'] = $result;
+        $return['data'] = $result;
         exit(json_encode($return));
     }
 
