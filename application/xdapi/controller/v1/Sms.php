@@ -24,8 +24,8 @@ class Sms extends BaseController
     public function registerSms() {
         $request = (new SmsCode())->goCheck();
         $mobile = $request->param('mobile');
-        $mobile_exist = WhUser::checkUserByMobile($mobile);
-        if ($mobile_exist) {
+        $user = WhUser::checkUserByMobile($mobile);
+        if ($user) {
             throw new UserException([
                 'msg' => '手机号码已注册，请直接登录',
                 'errorCode' => 50002,
@@ -33,7 +33,10 @@ class Sms extends BaseController
         }
         $mobile_count = WhSmscode::checkByMobile($mobile, SmsCodeTypeEnum::ToRegister);
         if ($mobile_count > config('aliyun.sms_mobile_limit')) {
-            throw new UserException();
+            throw new UserException([
+                'msg' => '发送次数过多',
+                'errorCode' => 50001,
+            ]);
         } else {
             $code = $this->randomKeys(config('aliyun.sms_KL'));
             $sendSms = new SendSms($mobile, $code, config('aliyun.sms_TC1'));

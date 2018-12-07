@@ -22,4 +22,17 @@ class WhUser extends BaseModel
         $user = self::where(['mobile_number'=>$mobile, 'user_pwd'=>md5($pwd)])->find();
         return $user;
     }
+
+    public static function checkUserByUserName($userName)
+    {
+        $user = self::where('user_name', '=', $userName)->find();
+        return $user;
+    }
+
+    public static function checkUserByIdNumber($IdNumber)
+    {
+        $user = self::where('id_number', '=', $IdNumber)->find();
+        return $user;
+    }
+
 }

@@ -9,7 +9,7 @@
 namespace app\xdapi\service;
 
 
-use app\lib\exception\TokenException;
+use app\lib\exception\ParameterException;
 use think\Cache;
 use think\Exception;
 use think\Request;
@@ -34,7 +34,10 @@ class Token
         $token = Request::instance()->header('token');
         $vars = Cache::get($token);
         if (!$vars) {
-            throw new TokenException();
+            throw new ParameterException([
+                'msg' => 'Token已过期或无效Token',
+                'errorCode' => 10001,
+            ]);
         } else {
             if (!is_array($vars)) {
                 $vars = json_decode($vars, true);

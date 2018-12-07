@@ -12,6 +12,6 @@ namespace app\lib\exception;
 class UserException extends BaseException
 {
 
-    public $msg = '发送次数过多，请稍后再试';
-    public $errorCode = 50001;
+    public $msg = '用户不存在';
+    public $errorCode = 50000;
 }
