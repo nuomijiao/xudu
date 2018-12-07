@@ -16,7 +16,7 @@ use app\xdapi\model\WhBanner;
 class Banner extends BaseController
 {
 
-    public function getBanner(){
+    public function getBannerList(){
         $banner = WhBanner::getBanner();
         if ($banner->isEmpty()) {
             throw new BannerMissException();

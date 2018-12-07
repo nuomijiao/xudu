@@ -11,5 +11,6 @@ namespace app\lib\exception;
 
 class BannerException extends BaseException
 {
-
+    public $msg = '请求轮播类目不存在';
+    public $errorCode = 30000;
 }
