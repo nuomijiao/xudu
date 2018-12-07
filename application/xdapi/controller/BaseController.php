@@ -48,7 +48,7 @@ class BaseController extends Controller
      * @param string $code
      * @author wuyading
      */
-    public function error($msg = '', $code = 'error')
+    public function error_return($msg = '', $code = 'error')
     {
         $result['code'] = $code;
         if($msg) {
