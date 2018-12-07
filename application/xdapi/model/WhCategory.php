@@ -12,7 +12,7 @@ namespace app\xdapi\model;
 class WhCategory extends BaseModel
 {
     protected $hidden = [
-        'id', 'sort_order'
+        'sort_order'
     ];
 
     public static function getCategory() {
