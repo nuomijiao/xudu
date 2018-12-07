@@ -21,4 +21,44 @@ class BaseController extends Controller
             'data'=> $param
         ]);
     }
+
+
+    /**
+     * 成功返回
+     * @param $result
+     * @param string $msg
+     * @param $code
+     * @author wuyading
+     */
+    public function success_return($result = null, $msg = '', $code = 'ok')
+    {
+        $return['code'] = $code;
+        if($msg) {
+            $return['msg'] = $msg;
+        } else {
+            $return['msg'] = '操作成功';
+        }
+        $return['data'] = $result;
+        exit(json_encode($return));
+    }
+
+    /**
+     * 失败返回
+     * @param string $msg
+     * @param string $code
+     * @author wuyading
+     */
+    public function error_return($msg = '', $code = 'error')
+    {
+        $result['code'] = $code;
+        if($msg) {
+            $result['msg'] = $msg;
+        } else {
+            $result['msg'] = '操作失败';
+        }
+        exit(json_encode($result));
+    }
+
+
+
 }
