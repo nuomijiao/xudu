@@ -17,6 +17,10 @@ class Moment extends BaseController
 {
     public function addMoment()
     {
+        $file = $_FILES;
+        echo '<pre>';
+        print_r($file);
+        echo "</pre>";die;
         (new MomentNew())->goCheck();
         $uid = Token::getCurrentUid();
     }
