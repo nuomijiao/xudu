@@ -13,7 +13,7 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'moment_img' => 'image'
+        'moment_img' => 'require|image'
     ];
 
     protected $message = [
