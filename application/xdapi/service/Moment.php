@@ -16,7 +16,10 @@ class Moment
 {
     public static function checkImg($img)
     {
-
+        $data = array();
+        $data['type'] = $img->getMime();
+        $data['ext'] = $img->getExtension();
+        print_r($data);die;
 
     }
 }

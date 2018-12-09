@@ -9,6 +9,7 @@
 namespace app\xdapi\controller\v1;
 
 
+use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\service\Token;
 use app\xdapi\validate\MomentNew;
@@ -19,6 +20,18 @@ class Moment extends BaseController
     public function addMoment()
     {
         $request = (new MomentNew())->goCheck();
+        $moment_img = $request->file('moment_img');
+        if (!empty($moment_img)) {
+            if (is_object($moment_img)) {
+                throw new ParameterException([
+                   'msg' => '上传图片参数错误',
+                ]);
+            }
+            foreach ($moment_img as $key => $value) {
+                MomentService::checkImg($value);
+            }
+        }
+
 
         $uid = Token::getCurrentUid();
 
