@@ -13,7 +13,7 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'moment_img' => 'require|checkImg',
+        'moment_img' => 'checkImg',
     ];
 
     protected $message = [
@@ -23,7 +23,7 @@ class MomentNew extends BaseValidate
 
     public function checkImg($value)
     {
-        if (!empty($value)) {
+        if (count($value['name'])) {
             if (!is_array($value)) {
                 return false;
             } else {
