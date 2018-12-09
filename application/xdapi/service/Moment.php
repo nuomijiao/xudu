@@ -11,8 +11,5 @@ namespace app\xdapi\service;
 
 class Moment
 {
-    public static function checkImgs($imgs)
-    {
 
-    }
 }
