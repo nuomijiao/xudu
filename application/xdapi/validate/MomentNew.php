@@ -23,6 +23,9 @@ class MomentNew extends BaseValidate
 
     public function checkImg($value)
     {
+        echo "<pre>";
+        print_r($value);
+        echo "</pre>";die;
         if (count($value['name'])) {
             $imgarr = [];
             foreach ($value as $kk => $vv) {
