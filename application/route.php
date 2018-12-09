@@ -41,3 +41,7 @@ Route::post('api/:version/sendsms', 'xdapi/:version.Sms/registerSms');
 Route::post('api/:version/register', 'xdapi/:version.LogAndReg/register');
 //登录
 Route::post('api/:version/login', 'xdapi/:version.LogAndReg/login');
+
+
+//发布动态
+Route::post('api/:version/addmoment', 'xdapi/:version.Moment/addMoment');

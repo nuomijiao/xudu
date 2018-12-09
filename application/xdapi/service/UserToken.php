@@ -10,8 +10,6 @@ namespace app\xdapi\service;
 
 
 use app\lib\exception\ParameterException;
-use app\lib\exception\UserException;
-use app\xdapi\model\WhUser;
 
 class UserToken extends Token
 {
