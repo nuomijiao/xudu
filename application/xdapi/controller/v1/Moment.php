@@ -17,7 +17,19 @@ class Moment extends BaseController
 {
     public function addMoment()
     {
-        (new MomentNew())->goCheck();
+        $request = (new MomentNew())->goCheck();
+        $moment_img = $request->file('moment_img');
+        //验证上传文件是否是图片
+
+        $imgarr = [];
+        foreach ($moment_img as $kk => $vv) {
+            foreach ($vv as $k => $v) {
+                $imgarr[$k][$kk] = $v;
+            }
+        }
+        $rule = ['ext' => 'jpg,png,gif,JPG,PNG,GIF'];
+        $imgarr -> validate($rule);
+
         $uid = Token::getCurrentUid();
 
     }
