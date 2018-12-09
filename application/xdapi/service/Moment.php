@@ -18,13 +18,10 @@ class Moment
     {
         $rule = ['type' => 'image/jpeg', 'image/png', 'image/gif', 'ext' => 'jpg,JPG,gif,GIF,png,PNG'];
         $validate = new Validate($rule);
-        $data = $img->getInfo();
+        $data = array();
+        $data['type'] = $img->getMime();
         $data['ext'] = $img->getExtension();
-        $result = $validate->batch()->check($data);
-        if (!$result) {
-            throw new ParameterException([
-                'msg' => $validate->error,
-            ]);
-        }
+        print_r(data);die;
+
     }
 }

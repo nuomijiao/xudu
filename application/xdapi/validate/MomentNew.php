@@ -13,11 +13,26 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'moment_img' => 'array',
+//        'moment_img' => 'checkImgs',
     ];
 
     protected $message = [
         'title' => '动态标题不能为空',
+//        'moment_img' => '上传文件的参数不对',
     ];
+
+//    public function checkImgs($value)
+//    {
+//        if (!empty($value)) {
+//            if (is_object($value)) {
+//                return false;
+//            } else {
+//                foreach ($value as $k => $v) {
+//
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
 }
