@@ -12,6 +12,7 @@ namespace app\xdapi\controller\v1;
 use app\xdapi\controller\BaseController;
 use app\xdapi\service\Token;
 use app\xdapi\validate\MomentNew;
+use think\Validate;
 
 class Moment extends BaseController
 {
@@ -19,10 +20,8 @@ class Moment extends BaseController
     {
         $request = (new MomentNew())->goCheck();
         $moment_img = $request->file('moment_img');
-
-        //验证上传文件是否是图片
-        $rules = ['ext' => 'jpg,png,gif,JPG,PNG,GIF', 'type' => 'image/jpeg,image/png,image/gif'];
-        $moment_img -> validate($rules);
+        print_r($moment_img->info);
+        die;
 
         $uid = Token::getCurrentUid();
 
