@@ -13,34 +13,12 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'moment_img' => 'checkImg',
+        'moment_img' => 'image'
     ];
 
     protected $message = [
         'title' => '动态标题不能为空',
-        'moment_img' => '上传文件参数错误',
+        'moment_img' => '请上传图片文件'
     ];
 
-    public function checkImg($value)
-    {
-        if (count($value['name'])) {
-            $imgarr = [];
-            foreach ($value as $kk => $vv) {
-                foreach ($vv as $k => $v) {
-                    $imgarr[$k][$kk] = $v;
-                }
-            }
-
-            foreach ($imgarr as $k => $v) {
-                if (!in_array($v['type'], ['jpg', 'png', 'gif', 'JPG', 'PNG', 'GIF'])){
-                    return false;
-                }
-                if (!in_array(mime_content_type($value['name']), ['image/jpeg','image/png','image/gif'])) {
-                    return false;
-                }
-            }
-
-        }
-        return true;
-    }
 }

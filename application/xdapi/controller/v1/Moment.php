@@ -19,5 +19,6 @@ class Moment extends BaseController
     {
         (new MomentNew())->goCheck();
         $uid = Token::getCurrentUid();
+
     }
 }
