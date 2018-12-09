@@ -21,7 +21,7 @@ class Moment
         $data = array();
         $data['type'] = $img->getMime();
         $data['ext'] = $img->getExtension();
-        print_r(data);die;
+        print_r($data);die;
 
     }
 }
