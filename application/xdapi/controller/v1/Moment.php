@@ -12,7 +12,7 @@ namespace app\xdapi\controller\v1;
 use app\xdapi\controller\BaseController;
 use app\xdapi\service\Token;
 use app\xdapi\validate\MomentNew;
-use think\Validate;
+use app\xdapi\service\Moment as MomentService;
 
 class Moment extends BaseController
 {
@@ -20,8 +20,9 @@ class Moment extends BaseController
     {
         $request = (new MomentNew())->goCheck();
         $moment_img = $request->file('moment_img');
-        print_r($moment_img->getInfo());
-        die;
+        foreach ($moment_img as $key => $value) {
+            MomentService::checkImg($value);
+        }
 
         $uid = Token::getCurrentUid();
 
