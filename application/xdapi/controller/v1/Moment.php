@@ -22,9 +22,7 @@ class Moment extends BaseController
 
         //验证上传文件是否是图片
         $rules = ['ext' => 'jpg,png,gif,JPG,PNG,GIF', 'type' => 'image/jpeg,image/png,image/gif'];
-        foreach ($moment_img as $key => $value) {
-            $value -> validate($rules);
-        }
+        $moment_img -> validate($rules);
 
         $uid = Token::getCurrentUid();
 
