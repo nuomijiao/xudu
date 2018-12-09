@@ -20,7 +20,7 @@ class Moment extends BaseController
     {
         $request = (new MomentNew())->goCheck();
         $moment_img = $request->file('moment_img');
-        print_r($moment_img->info);
+        print_r($moment_img->getInfo());
         die;
 
         $uid = Token::getCurrentUid();
