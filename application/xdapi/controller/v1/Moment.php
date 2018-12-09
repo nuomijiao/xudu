@@ -17,18 +17,6 @@ class Moment extends BaseController
 {
     public function addMoment()
     {
-        $file = $_FILES;
-        $moment = $_FILES['moment_img'];
-        $imgarr = [];
-        foreach ($moment as $kk => $vv) {
-            foreach ($vv as $k => $v) {
-                $imgarr[$k][$kk] = $v;
-            }
-        }
-
-        echo '<pre>';
-        print_r($imgarr);
-        echo "</pre>";die;
         (new MomentNew())->goCheck();
         $uid = Token::getCurrentUid();
     }

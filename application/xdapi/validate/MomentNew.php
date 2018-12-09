@@ -24,18 +24,22 @@ class MomentNew extends BaseValidate
     public function checkImg($value)
     {
         if (count($value['name'])) {
-            if (!is_array($value)) {
-                return false;
-            } else {
-                foreach ($value as $k => $v) {
-                    if (!in_array($v['type'], ['jpg', 'png', 'gif', 'JPG', 'PNG', 'GIF'])){
-                        return false;
-                    }
-                    if (!in_array(mime_content_type($value['name']), ['image/jpeg','image/png','image/gif'])) {
-                        return false;
-                    }
+            $imgarr = [];
+            foreach ($value as $kk => $vv) {
+                foreach ($vv as $k => $v) {
+                    $imgarr[$k][$kk] = $v;
                 }
             }
+
+            foreach ($imgarr as $k => $v) {
+                if (!in_array($v['type'], ['jpg', 'png', 'gif', 'JPG', 'PNG', 'GIF'])){
+                    return false;
+                }
+                if (!in_array(mime_content_type($value['name']), ['image/jpeg','image/png','image/gif'])) {
+                    return false;
+                }
+            }
+
         }
         return true;
     }
