@@ -13,7 +13,7 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'moment_img' => 'image|fileExt:jpg,png,gif|fileMime:image/jpeg,image/png,image/gif'
+        'moment_img' => 'file|image|fileExt:jpg,png,gif|fileMime:image/jpeg,image/png,image/gif'
     ];
 
     protected $message = [
