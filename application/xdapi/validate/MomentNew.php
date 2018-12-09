@@ -23,7 +23,7 @@ class MomentNew extends BaseValidate
 
     public function checkImgs($value)
     {
-        if (!empty($value)) {
+
             if (is_object($value)) {
                 return false;
             } else {
@@ -34,7 +34,7 @@ class MomentNew extends BaseValidate
                     }
                 }
             }
-        }
+
         return true;
     }
 
