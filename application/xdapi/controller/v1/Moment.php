@@ -28,7 +28,11 @@ class Moment extends BaseController
                 ]);
             }
             foreach ($moment_img as $key => $value) {
-                MomentService::checkImg($value);
+                if(!MomentService::checkImg($value)) {
+                    throw new ParameterException([
+                        'msg' => '上传图片参数错误',
+                    ]);
+                };
             }
         }
 
