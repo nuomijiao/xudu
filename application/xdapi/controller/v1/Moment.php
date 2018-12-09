@@ -20,13 +20,10 @@ class Moment extends BaseController
         $request = (new MomentNew())->goCheck();
         $moment_img = $request->file('moment_img');
         //验证上传文件是否是图片
-
-        echo "<pre>";
-        print_r($moment_img);
-        echo "</pre>";die;
-
-        $rule = ['ext' => 'jpg,png,gif,JPG,PNG,GIF'];
-        $imgarr -> validate($rule);
+        $rule = ['ext' => 'jpg,png,gif,JPG,PNG,GIF', 'type' => 'image/jpeg,image/png,image/gif'];
+        foreach ($moment_img as $key => $value) {
+            $value -> validate($rule);
+        }
 
         $uid = Token::getCurrentUid();
 
