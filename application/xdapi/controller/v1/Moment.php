@@ -19,10 +19,6 @@ class Moment extends BaseController
     public function addMoment()
     {
         $request = (new MomentNew())->goCheck();
-        $moment_img = $request->file('moment_img');
-        foreach ($moment_img as $key => $value) {
-            MomentService::checkImg($value);
-        }
 
         $uid = Token::getCurrentUid();
 
