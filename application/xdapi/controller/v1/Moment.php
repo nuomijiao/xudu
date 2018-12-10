@@ -52,8 +52,16 @@ class Moment extends BaseController
         (new PagingParameter())->goCheck();
         $pagingMoments = WhMoments::getHotMoments($page, $size);
         if ($pagingMoments->isEmpty()) {
-            throw new MomentsException();
+            throw new MomentsException([
+                'msg' => '热门动态已见底线',
+                'errorCode' => 70001,
+            ]);
         }
-
+        $data = $pagingMoments->toArray();
+        return json([
+            'error_code' => 'Success',
+            'data' => $data,
+            'current_page' => $pagingMoments->getCurrentPage(),
+        ]);
     }
 }
