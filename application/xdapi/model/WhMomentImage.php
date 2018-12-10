@@ -11,7 +11,7 @@ namespace app\xdapi\model;
 
 class WhMomentImage extends BaseModel
 {
-    public function getUrlAttr($value, $dat)
+    public function getUrlAttr($value, $data)
     {
         return $this->prefixImgUrl($value, $data);
     }

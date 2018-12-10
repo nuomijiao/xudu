@@ -17,7 +17,8 @@ class BaseModel extends Model
     {
         $finalUrl = $value;
         if (1 == $data['from']) {
-            $finalUrl = config('setting.domain')
+            $finalUrl = config('setting.domain').DS.$value;
         }
+        return $finalUrl;
     }
 }

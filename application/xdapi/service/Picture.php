@@ -26,7 +26,7 @@ class Picture
         $info = $img->rule('md5')->move(ROOT_PATH.'public'.DS.$directory);
         if ($info) {
             $dataArray = [
-                'url' => $directory.DS.$info->getSaveName(),
+                'url' => DS.$directory.DS.$info->getSaveName(),
                 'from' => 1,
             ];
             return $dataArray;
