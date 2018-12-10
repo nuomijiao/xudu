@@ -6,5 +6,5 @@
  * Time: 18:27
  */
 return [
-    'domain' => 'http://xd.5d1.top.com',
+    'domain' => 'http://xd.5d1.top',
 ];
