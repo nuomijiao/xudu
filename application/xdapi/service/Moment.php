@@ -22,7 +22,7 @@ class Moment extends Picture
         $imgurl = [];
         foreach ($img as $key => $value) {
             $data = self::uploadImg($value, 'images');
-            array_push($imgurl, config('setting.domain').DS.$data['url']);
+            array_push($imgurl, config('setting.domain').DS."images".DS.$data['url']);
             array_push($imgarr, $data);
         }
         Db::startTrans();
