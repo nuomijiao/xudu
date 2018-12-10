@@ -9,7 +9,7 @@
 namespace app\xdapi\service;
 
 
-use app\xdapi\model\WhImage;
+use app\xdapi\model\WhMomentImage;
 use app\xdapi\model\WhMoments;
 use think\Db;
 use think\Exception;
@@ -27,18 +27,17 @@ class Moment extends Picture
         }
         Db::startTrans();
         try {
-            $img_ids = '';
-            foreach ($imgarr as $k => $v) {
-                $image = WhImage::create($v);
-                $img_ids .= $image->id.",";
-            }
-            $img_id = rtrim($img_ids, ',');
-            WhMoments::create([
+            $moment = WhMoments::create([
                 'title' => $title,
-                'imgs' => $img_id,
                 'location' => $addr,
                 'user_id' => $uid,
             ]);
+            $moment_id = $moment->id;
+            $img_ids = '';
+            foreach ($imgarr as $k => &$v) {
+                $v['moment_id'] = $moment_id;
+                WhMomentImage::create($v);
+            }
             Db::commit();
             $data = [
                 'title' => $title,

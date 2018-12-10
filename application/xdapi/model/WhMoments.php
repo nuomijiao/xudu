@@ -13,4 +13,10 @@ class WhMoments extends BaseModel
 {
     protected $autoWriteTimestamp = true;
     protected $updateTime = false;
+
+
+    public function allImg()
+    {
+        return $this->hasMany('WhMomentImage', 'moment_id', 'id');
+    }
 }

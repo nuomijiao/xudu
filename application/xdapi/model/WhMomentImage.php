@@ -9,7 +9,7 @@
 namespace app\xdapi\model;
 
 
-class WhImage extends BaseModel
+class WhMomentImage extends BaseModel
 {
 
 }
