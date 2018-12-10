@@ -17,7 +17,6 @@ class MomentNew extends BaseValidate
 
     protected $message = [
         'title' => '动态标题不能为空',
-        'moment_img' => '上传文件的参数不对',
     ];
 
 }

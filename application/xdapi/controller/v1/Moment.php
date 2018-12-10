@@ -21,6 +21,8 @@ class Moment extends BaseController
     {
         $request = (new MomentNew())->goCheck();
         $moment_img = $request->file('moment_img');
+        $title = $request->param('title');
+        $location = $request->param('location');
         if (!empty($moment_img)) {
             if (is_object($moment_img)) {
                 throw new ParameterException([
@@ -32,12 +34,12 @@ class Moment extends BaseController
                     throw new ParameterException([
                         'msg' => '上传图片参数错误',
                     ]);
-                };
+                }
             }
         }
-
-
         $uid = Token::getCurrentUid();
-
+        //上传动态
+        $data = MomentService::releaseMoment($uid,$moment_img,$title,$location);
+        return $this->xdreturn($data);
     }
 }
