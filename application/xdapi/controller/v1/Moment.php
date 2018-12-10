@@ -9,11 +9,14 @@
 namespace app\xdapi\controller\v1;
 
 
+use app\lib\exception\MomentsException;
 use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
+use app\xdapi\model\WhMoments;
 use app\xdapi\service\Token;
 use app\xdapi\validate\MomentNew;
 use app\xdapi\service\Moment as MomentService;
+use app\xdapi\validate\PagingParameter;
 
 class Moment extends BaseController
 {
@@ -44,8 +47,13 @@ class Moment extends BaseController
         return $this->xdreturn($data);
     }
 
-    public function getHot()
+    public function getHot($page = 1, $size = 10)
     {
+        (new PagingParameter())->goCheck();
+        $pagingMoments = WhMoments::getHotMoments($page, $size);
+        if ($pagingMoments->isEmpty()) {
+            throw new MomentsException();
+        }
 
     }
 }

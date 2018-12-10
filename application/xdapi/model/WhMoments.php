@@ -19,4 +19,9 @@ class WhMoments extends BaseModel
     {
         return $this->hasMany('WhMomentImage', 'moment_id', 'id');
     }
+
+    public static function getHotMoments($page, $size)
+    {
+        return self::with(['allImg'])->paginate($size, true, ['page' => $page]);
+    }
 }
