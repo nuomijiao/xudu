@@ -46,4 +46,4 @@ Route::post('api/:version/login', 'xdapi/:version.LogAndReg/login');
 //发布动态
 Route::post('api/:version/addmoment', 'xdapi/:version.Moment/addMoment');
 //获取热门动态
-Route::post('api/:version/hotmoment', 'xdapi/:version.Moment/getHot');
+Route::get('api/:version/hotmoment', 'xdapi/:version.Moment/getHot');
