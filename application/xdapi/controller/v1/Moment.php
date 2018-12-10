@@ -37,6 +37,7 @@ class Moment extends BaseController
                 }
             }
         }
+
         $uid = Token::getCurrentUid();
         //上传动态
         $data = MomentService::releaseMoment($uid,$moment_img,$title,$location);
