@@ -43,4 +43,9 @@ class Moment extends BaseController
         $data = MomentService::releaseMoment($uid,$moment_img,$title,$location);
         return $this->xdreturn($data);
     }
+
+    public function getHot()
+    {
+
+    }
 }

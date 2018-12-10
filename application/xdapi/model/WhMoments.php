@@ -11,5 +11,5 @@ namespace app\xdapi\model;
 
 class WhMoments extends BaseModel
 {
-
+    protected $autoWriteTimestamp = true;
 }
