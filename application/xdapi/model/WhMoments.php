@@ -27,11 +27,19 @@ class WhMoments extends BaseModel
         return $this->belongsTo('WhUser', 'user_id', 'id');
     }
 
-    public static function getHotMoments($page, $size)
+    public function zan() {
+        return $this->belongsToMany('WhUser', 'WhMomentsZan', 'user_id', 'moment_id');
+    }
+
+    public static function getHotMoments($uid, $page, $size)
     {
         return self::with(['allImg'])->with([
             'userInfo' => function($query) {
                 $query->field(['id', 'user_name', 'head_img']);
+            }
+        ])->with([
+            'zan' => function($q) use ($uid){
+                $q->where('user_id', '=', $uid);
             }
         ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }

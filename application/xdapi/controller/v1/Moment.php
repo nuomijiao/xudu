@@ -50,7 +50,8 @@ class Moment extends BaseController
     public function getHot($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
-        $pagingMoments = WhMoments::getHotMoments($page, $size);
+        $uid = Token::getCurrentUid();
+        $pagingMoments = WhMoments::getHotMoments($uid, $page, $size);
         if ($pagingMoments->isEmpty()) {
             throw new MomentsException([
                 'msg' => '热门动态已见底线',
