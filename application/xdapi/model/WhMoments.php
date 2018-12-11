@@ -39,7 +39,7 @@ class WhMoments extends BaseModel
             }
         ])->with([
             'zan' => function($q) use ($uid){
-                $q->field(['id', 'pivot'])->where('user_id', '=', $uid);
+                $q->field(['xd_wh_user.id', 'pivot.user_id', 'pivot.delete_time'])->where('pivot.user_id', '=', $uid)->limit(1);
             }
         ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
