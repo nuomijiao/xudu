@@ -29,6 +29,10 @@ class WhMoments extends BaseModel
 
     public static function getHotMoments($page, $size)
     {
-        return self::with(['allImg','userInfo'])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
+        return self::with(['allImg'])->with([
+            'userInfo' => function($query) {
+                $query->field(['id', 'user_name', 'head_img']);
+            }
+        ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
 }

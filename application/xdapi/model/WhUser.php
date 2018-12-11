@@ -11,6 +11,11 @@ namespace app\xdapi\model;
 
 class WhUser extends BaseModel
 {
+
+    public function getHeadImgAttr($value) {
+        return config('setting.domain').$value;
+    }
+
     public static function checkUserByMobile($mobile)
     {
         $user = self::where('mobile_number', '=', $mobile)->find();
