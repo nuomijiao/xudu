@@ -9,8 +9,8 @@
 namespace app\xdapi\controller\v1;
 
 
+use app\lib\exception\FriendsException;
 use app\lib\exception\SuccessMessage;
-use app\lib\exception\UserException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\service\Token;
@@ -22,11 +22,16 @@ class Friends extends BaseController
     {
         (new IDMustBePositiveInt())->goCheck();
         $uid = Token::getCurrentUid();
-        WhFriendsApply::create([
-            'my_id' => $uid,
-            'friend_id' => $id,
-            'status' => 0,
-        ]);
+        $apply = WhFriendsApply::checkApplyExist($uid, $id);
+        if (!$apply) {
+            WhFriendsApply::create([
+                'my_id' => $uid,
+                'friend_id' => $id,
+                'status' => 0,
+            ]);
+        } else {
+            WhFriendsApply::where('id', '=', $apply->id)->update();
+        }
         throw new SuccessMessage([
             'msg' => '发送申请成功',
         ]);
@@ -37,7 +42,7 @@ class Friends extends BaseController
         $uid = Token::getCurrentUid();
         $applyList = WhFriendsApply::getList($uid);
         if ($applyList->isEmpty()) {
-            throw new UserException([
+            throw new FriendsException([
                 'msg' => '好友申请为空',
                 'errorCode' => 80001,
             ]);
