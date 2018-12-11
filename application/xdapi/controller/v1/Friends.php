@@ -13,6 +13,7 @@ use app\lib\enum\FriendsApplyStatusEnum;
 use app\lib\exception\FriendsException;
 use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
+use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\service\Token;
 use app\xdapi\validate\FriendStatus;
@@ -70,8 +71,8 @@ class Friends extends BaseController
                     ['my_id' => $friend, 'friend_id' => $uid],
                     ['my_id' => $uid, 'friend_id' => $friend],
                 ];
-                $whFriendApply = new WhFriendsApply();
-                $whFriendApply->saveAll($dataArray);
+                $whFriends = new WhFriends();
+                $whFriends->saveAll($dataArray);
                 Db::commit();
             } catch(Exception $ex) {
                 Db::rollback();
