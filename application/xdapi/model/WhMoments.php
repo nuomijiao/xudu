@@ -43,7 +43,7 @@ class WhMoments extends BaseModel
             }
         ])->with([
             'thisMyZan' => function($q) use ($uid){
-                $q->where('xd_wh_moments_zan.user_id', '=', $uid)->limit(1);
+                $q->where('user_id', '=', $uid);
             }
         ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
