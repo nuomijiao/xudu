@@ -17,6 +17,7 @@ use app\xdapi\model\WhFriendsApply;
 use app\xdapi\service\Token;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
+use think\Db;
 
 class Friends extends BaseController
 {
@@ -61,7 +62,24 @@ class Friends extends BaseController
                 'errorCode' => 80002,
             ]);
         }
-        WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
+        if (FriendsApplyStatusEnum::Pass == $status) {
+            Db::startTrans();
+            try {
+                WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
+                $dataArray = [
+                    ['my_id' => $friend, 'friend_id' => $uid],
+                    ['my_id' => $uid, 'friend_id' => $friend],
+                ];
+                $whFriendApply = new WhFriendsApply();
+                $whFriendApply->saveAll($dataArray);
+                Db::commit();
+            } catch(Exception $ex) {
+                Db::rollback();
+                throw $ex;
+            }
+        } else {
+            WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
+        }
         throw new SuccessMessage([
             'msg' => '操作成功',
         ]);
