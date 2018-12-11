@@ -49,7 +49,7 @@ class Friends extends BaseController
     {
         (new FriendStatus())->goCheck();
         $uid = Token::getCurrentUid();
-        $apply = WhFriendsApply::checkApplyExist($uid, $friend);
+        $apply = WhFriendsApply::checkApplyExist($friend, $uid);
         if (!$apply || FriendsApplyStatusEnum::Deny) {
             throw new FriendsException([
                 'msg' => '好友申请不存在',
