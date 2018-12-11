@@ -12,11 +12,11 @@ namespace app\xdapi\validate;
 class FriendStatus extends BaseValidate
 {
     protected $rule = [
-        'friend' => 'require|isPositiveInteger',
+        'id' => 'require|isPositiveInteger',
         'status' => 'require|in:1,2',
     ];
 
     protected $message = [
-        'friend' => '申请人id必须是正整数',
+        'id' => 'id必须是正整数',
     ];
 }

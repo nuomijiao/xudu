@@ -11,6 +11,6 @@ namespace app\lib\exception;
 
 class FriendsException extends BaseException
 {
-    public $msg = '好友列表为空';
+    public $msg = '暂时没有好友';
     public $errorCode = 80000;
 }

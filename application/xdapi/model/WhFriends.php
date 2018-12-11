@@ -11,5 +11,17 @@ namespace app\xdapi\model;
 
 class WhFriends extends BaseModel
 {
+    public function friends()
+    {
+        return $this->belongsTo('WhUser', 'friend_id', 'id');
+    }
 
+    public static function getFriendList($uid)
+    {
+        return self::with([
+            'friends' => function($query) {
+                $query->field(['id', 'head_img', 'user_name']);
+            }
+        ])->where('my_id', '=', $uid)->select();
+    }
 }

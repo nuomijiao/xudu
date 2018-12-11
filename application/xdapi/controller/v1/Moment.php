@@ -65,4 +65,9 @@ class Moment extends BaseController
             'current_page' => $pagingMoments->getCurrentPage(),
         ]);
     }
+
+    public function getFollow($page = 1, $size = 10)
+    {
+        (new PagingParameter())->goCheck();
+    }
 }

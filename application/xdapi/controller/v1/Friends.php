@@ -15,13 +15,14 @@ use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
+use app\xdapi\service\Friedns as FriendsService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
-use think\Db;
 
 class Friends extends BaseController
 {
+    //申请好友
     public function apply($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
@@ -47,12 +48,15 @@ class Friends extends BaseController
         ]);
     }
 
-    public function updateApplyStatus($friend = '', $status = '')
+    //改变申请状态，拒绝，通过
+    public function updateApplyStatus($id = '', $status = '')
     {
         (new FriendStatus())->goCheck();
-        $uid = Token::getCurrentUid();
-        $apply = WhFriendsApply::checkApplyExist($friend, $uid);
-        if (!$apply || $apply->status == FriendsApplyStatusEnum::Deny) {
+
+        //判断该申请是不是自己的，操作该申请是不是合法。
+        $apply = FriendsService::checkOperateApply($id);
+
+        if ($apply->status == FriendsApplyStatusEnum::Deny) {
             throw new FriendsException([
                 'msg' => '好友申请不存在',
                 'errorCode' => 80003,
@@ -63,29 +67,25 @@ class Friends extends BaseController
                 'errorCode' => 80002,
             ]);
         }
-        if (FriendsApplyStatusEnum::Pass == $status) {
-            Db::startTrans();
-            try {
-                WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
-                $dataArray = [
-                    ['my_id' => $friend, 'friend_id' => $uid],
-                    ['my_id' => $uid, 'friend_id' => $friend],
-                ];
-                $whFriends = new WhFriends();
-                $whFriends->saveAll($dataArray);
-                Db::commit();
-            } catch(Exception $ex) {
-                Db::rollback();
-                throw $ex;
-            }
-        } else {
-            WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
-        }
+        FriendsService::changeApplyStatus($status, $apply);
+
         throw new SuccessMessage([
             'msg' => '操作成功',
         ]);
     }
 
+    //删除好友申请
+    public function deleteApply($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $apply = FriendsService::checkOperateApply($id);
+        WhFriendsApply::destroy($id);
+        throw new SuccessMessage([
+            'msg' => '操作成功',
+        ]);
+    }
+
+    //获取好友申请列表
     public function getApplyList()
     {
         $uid = Token::getCurrentUid();
@@ -100,9 +100,14 @@ class Friends extends BaseController
     }
 
 
-
+    //获取自己的好友列表
     public function getList()
     {
         $uid = Token::getCurrentUid();
+        $friend_list = WhFriends::getFriendList($uid);
+        if ($friend_list->isEmpty()) {
+            throw new FriendsException();
+        }
+        return $this->xdreturn($friend_list);
     }
 }

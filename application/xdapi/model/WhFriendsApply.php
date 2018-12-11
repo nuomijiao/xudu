@@ -17,7 +17,7 @@ class WhFriendsApply extends BaseModel
         'create_time', 'update_time',
     ];
 
-    public function friends()
+    public function friendsApply()
     {
         return $this->belongsTo('WhUser', 'my_id', 'id');
     }
@@ -30,7 +30,7 @@ class WhFriendsApply extends BaseModel
     public static function getList($uid)
     {
         $list = self::with([
-            'friends' => function ($query) {
+            'friendsApply' => function ($query) {
                 $query->field(['id', 'head_img', 'user_name']);
             }
         ])->where('friend_id', '=', $uid)->order('create_time', 'asc')->select();

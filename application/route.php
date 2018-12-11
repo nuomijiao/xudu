@@ -51,9 +51,9 @@ Route::get('api/:version/hotmoment', 'xdapi/:version.Moment/getHot');
 
 //申请添加好友
 Route::post('api/:version/applyfriend', 'xdapi/:version.Friends/apply');
-//获取好友列表
-Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
 //获取好友申请列表
 Route::get('api/:version/getfriendapplylist', 'xdapi/:version.Friends/getApplyList');
 //修改好友申请状态
 Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatus');
+//获取好友列表
+Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
