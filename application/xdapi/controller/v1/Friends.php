@@ -54,6 +54,7 @@ class Friends extends BaseController
                 'errorCode' => 80001,
             ]);
         }
+        return $this->xdreturn($applyList);
 
     }
 
