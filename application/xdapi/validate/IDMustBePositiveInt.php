@@ -12,7 +12,7 @@ namespace app\xdapi\validate;
 class IDMustBePositiveInt extends BaseValidate
 {
     protected $rule = [
-        'id' => 'require|isPostiveInteger',
+        'id' => 'require|isPositiveInteger',
     ];
 
     protected $message = [

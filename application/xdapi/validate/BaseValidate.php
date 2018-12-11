@@ -31,7 +31,7 @@ class BaseValidate extends Validate
         }
     }
 
-    protected function isPositiveInteger($value) {
+    protected function isPositiveInteger($value, $rule = '', $data = '', $field = '') {
         if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
             return true;
         } else {
@@ -50,7 +50,7 @@ class BaseValidate extends Validate
         }
     }
 
-    protected function isNotEmpty($value) {
+    protected function isNotEmpty($value, $rule = '', $data = '', $field = '') {
         if (empty($value)) {
 //            return $field. '不允许为空';
             return false;
