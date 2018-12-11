@@ -47,6 +47,8 @@ Route::post('api/:version/login', 'xdapi/:version.LogAndReg/login');
 Route::post('api/:version/addmoment', 'xdapi/:version.Moment/addMoment');
 //获取热门动态
 Route::get('api/:version/hotmoment', 'xdapi/:version.Moment/getHot');
+//获取关注动态
+Route::get('api/:version/followmoment', 'xdapi/:version.Moment/getFollow');
 
 
 //申请添加好友

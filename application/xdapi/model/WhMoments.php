@@ -47,4 +47,17 @@ class WhMoments extends BaseModel
             }
         ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
+
+    public static function getFollowMoments($uid, $friends_ids, $page, $size)
+    {
+        return self::with(['allImg'])->with([
+            'userInfo' => function($query) {
+                $query->field(['id', 'user_name', 'head_img']);
+            }
+        ])->with([
+            'thisMyZan' => function($q) use ($uid){
+                $q->where('user_id', '=', $uid);
+            }
+        ])->where('user_id', 'in', $friends_ids)->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
+    }
 }

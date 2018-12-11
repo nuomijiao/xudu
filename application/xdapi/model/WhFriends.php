@@ -24,4 +24,10 @@ class WhFriends extends BaseModel
             }
         ])->where('my_id', '=', $uid)->select();
     }
+
+    //获取好友id列表
+    public static function getFriendListId($uid)
+    {
+        return self::where('my_id', '=', $uid)->field('friend_id')->select();
+    }
 }

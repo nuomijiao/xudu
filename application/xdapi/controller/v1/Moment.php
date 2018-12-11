@@ -12,6 +12,7 @@ namespace app\xdapi\controller\v1;
 use app\lib\exception\MomentsException;
 use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
+use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMoments;
 use app\xdapi\service\Token;
 use app\xdapi\validate\MomentNew;
@@ -69,5 +70,26 @@ class Moment extends BaseController
     public function getFollow($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        //获取好友id列表
+        $friends = WhFriends::getFriendListId($uid);
+        $friends_ids = '';
+        foreach($friends as $key => $value) {
+            $friends_ids .= $value->friend_id.",";
+        }
+        $friends_ids = rtrim($friends_ids);
+        $pagingMoments = WhMoments::getFollowMoments($uid, $friends_ids, $page, $size);
+        if ($pagingMoments->isEmpty()) {
+            throw new MomentsException([
+                'msg' => '关注动态已见底线',
+                'errorCode' => 70002,
+            ]);
+        }
+        $data = $pagingMoments->toArray();
+        return json([
+            'error_code' => 'Success',
+            'data' => $data,
+            'current_page' => $pagingMoments->getCurrentPage(),
+        ]);
     }
 }
