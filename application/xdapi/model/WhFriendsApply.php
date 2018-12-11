@@ -13,6 +13,10 @@ class WhFriendsApply extends BaseModel
 {
     protected $autoWriteTimestamp = true;
 
+    protected $hidden = [
+        'create_time', 'update_time',
+    ];
+
     public function friends()
     {
         return $this->belongsTo('WhUser', 'my_id', 'id');
@@ -27,7 +31,7 @@ class WhFriendsApply extends BaseModel
     {
         $list = self::with([
             'friends' => function ($query) {
-
+                $query->field(['id', 'head_img', 'user_name']);
             }
         ])->where('friend_id', '=', $uid)->order('create_time', 'asc')->select();
         return $list;
