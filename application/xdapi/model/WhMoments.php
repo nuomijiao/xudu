@@ -31,6 +31,10 @@ class WhMoments extends BaseModel
         return $this->belongsToMany('WhUser', 'WhMomentsZan', 'user_id', 'moment_id');
     }
 
+    public function thisMyZan() {
+        return $this->hasMany('WhMomentsZan', 'moment_id', 'id');
+    }
+
     public static function getHotMoments($uid, $page, $size)
     {
         return self::with(['allImg'])->with([
@@ -38,8 +42,8 @@ class WhMoments extends BaseModel
                 $query->field(['id', 'user_name', 'head_img']);
             }
         ])->with([
-            'zan' => function($q) use ($uid){
-                $q->field(['xd_wh_user.id', 'pivot.user_id', 'pivot.delete_time'])->where('pivot.user_id', '=', $uid)->limit(1);
+            'thisMyZan' => function($q) use ($uid){
+                $q->where('user_id', '=', $uid)->limit(1);
             }
         ])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
