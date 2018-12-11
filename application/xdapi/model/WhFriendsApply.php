@@ -27,7 +27,7 @@ class WhFriendsApply extends BaseModel
     {
         $list = self::with([
             'friends' => function ($query) {
-                $query->field('id', 'head_img', 'user_name');
+
             }
         ])->where('friend_id', '=', $uid)->order('create_time', 'asc')->select();
         return $list;
