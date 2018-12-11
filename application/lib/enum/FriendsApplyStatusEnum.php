@@ -9,7 +9,7 @@
 namespace app\lib\enum;
 
 
-class FriendsApplyStatus
+class FriendsApplyStatusEnum
 {
     //待处理
     const Wait = 0;

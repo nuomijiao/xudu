@@ -9,12 +9,13 @@
 namespace app\xdapi\controller\v1;
 
 
-use app\lib\enum\FriendsApplyStatus;
+use app\lib\enum\FriendsApplyStatusEnum;
 use app\lib\exception\FriendsException;
 use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\service\Token;
+use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
 
 class Friends extends BaseController
@@ -24,14 +25,14 @@ class Friends extends BaseController
         (new IDMustBePositiveInt())->goCheck();
         $uid = Token::getCurrentUid();
         $apply = WhFriendsApply::checkApplyExist($uid, $id);
-        if (!$apply || $apply->status == FriendsApplyStatus::Deny) {
+        if (!$apply || $apply->status == FriendsApplyStatusEnum::Deny) {
             WhFriendsApply::create([
                 'my_id' => $uid,
                 'friend_id' => $id,
                 'status' => 0,
             ]);
         } else {
-            if ($apply->status == FriendsApplyStatus::Pass) {
+            if ($apply->status == FriendsApplyStatusEnum::Pass) {
                 throw new FriendsException([
                     'msg' => 'TA已经是你好友',
                     'errorCode' => 80002,
@@ -44,19 +45,42 @@ class Friends extends BaseController
         ]);
     }
 
+    public function updateApplyStatus($friend = '', $status = '')
+    {
+        (new FriendStatus())->goCheck();
+        $uid = Token::getCurrentUid();
+        $apply = WhFriendsApply::checkApplyExist($uid, $friend);
+        if (!$apply || FriendsApplyStatusEnum::Deny) {
+            throw new FriendsException([
+                'msg' => '好友申请不存在',
+                'errorCode' => 80003,
+            ]);
+        } elseif ($apply->status == FriendsApplyStatusEnum::Pass) {
+            throw new FriendsException([
+                'msg' => 'TA已经是你好友',
+                'errorCode' => 80002,
+            ]);
+        }
+        WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
+        throw new SuccessMessage([
+            'msg' => '操作成功',
+        ]);
+    }
+
     public function getApplyList()
     {
         $uid = Token::getCurrentUid();
         $applyList = WhFriendsApply::getList($uid);
         if ($applyList->isEmpty()) {
             throw new FriendsException([
-                'msg' => '好友申请为空',
+                'msg' => '暂时没有好友申请',
                 'errorCode' => 80001,
             ]);
         }
         return $this->xdreturn($applyList);
-
     }
+
+
 
     public function getList()
     {

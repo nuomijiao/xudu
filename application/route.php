@@ -55,3 +55,5 @@ Route::post('api/:version/applyfriend', 'xdapi/:version.Friends/apply');
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
 //获取好友申请列表
 Route::get('api/:version/getfriendapplylist', 'xdapi/:version.Friends/getApplyList');
+//修改好友申请状态
+Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatus');
