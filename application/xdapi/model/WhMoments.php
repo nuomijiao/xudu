@@ -14,14 +14,21 @@ class WhMoments extends BaseModel
     protected $autoWriteTimestamp = true;
     protected $updateTime = false;
 
+    public function getCreateTimeAttr($value, $data) {
+        return date("Y年m月d日", $value);
+    }
 
     public function allImg()
     {
         return $this->hasMany('WhMomentImage', 'moment_id', 'id');
     }
 
+    public function userInfo() {
+        return $this->belongsTo('WhUser', 'user_id', 'id');
+    }
+
     public static function getHotMoments($page, $size)
     {
-        return self::with(['allImg'])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
+        return self::with(['allImg','userInfo'])->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
 }
