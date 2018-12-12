@@ -30,4 +30,9 @@ class WhFriends extends BaseModel
     {
         return self::where('my_id', '=', $uid)->field('friend_id')->select();
     }
+
+    public static function checkIsFriends($myId, $friendId)
+    {
+        return self::where(['my_id' => $myId, 'friend_id' => $friendId])->find();
+    }
 }

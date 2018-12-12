@@ -51,6 +51,8 @@ Route::get('api/:version/hotmoment', 'xdapi/:version.Moment/getHot');
 Route::get('api/:version/followmoment', 'xdapi/:version.Moment/getFollow');
 //动态点赞
 Route::post('api/:version/zanmoment', 'xdapi/:version.Moment/clickZan');
+//获取动态详情
+Route::get('api/:version/momentdetail/:id', 'xdapi/:version.Moment/getCommentDetail');
 
 
 //申请添加好友

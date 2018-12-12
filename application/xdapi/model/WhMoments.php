@@ -60,4 +60,17 @@ class WhMoments extends BaseModel
             }
         ])->where('user_id', 'in', $friends_ids)->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
+
+    public static function getDetail($id, $uid)
+    {
+        return self::with(['allImg'])->with([
+            'userInfo' => function($query) {
+                $query->field(['id', 'user_name', 'head_img']);
+            }
+        ])->with([
+            'thisMyZan' => function($q) use ($uid){
+                $q->where('user_id', '=', $uid);
+            }
+        ])->find($id);
+    }
 }

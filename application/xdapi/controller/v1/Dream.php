@@ -15,7 +15,6 @@ use app\xdapi\model\WhActivity;
 
 class Dream extends BaseController
 {
-
     public function getActivityList(){
         $activity = WhActivity::getAcivity();
         if ($activity->isEmpty()) {
