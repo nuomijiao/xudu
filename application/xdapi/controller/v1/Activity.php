@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sweet Jiao
- * Date: 2018/10/24 0024
- * Time: 0:27
- */
+
 
 namespace app\xdapi\controller\v1;
 
