@@ -70,6 +70,7 @@ class Moment extends Picture
                 $is_zan = WhMomentsZan::create([
                     'moment_id' => $id,
                     'user_id' => $uid,
+                    'delete_time' => 0
                 ]);
                 Db::name('wh_moments')->where('id', '=', $id)->setInc('zan_number');
             }
