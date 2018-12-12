@@ -14,13 +14,16 @@ use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMoments;
+use app\xdapi\model\WhMomentsZan;
 use app\xdapi\service\Token;
+use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\MomentNew;
 use app\xdapi\service\Moment as MomentService;
 use app\xdapi\validate\PagingParameter;
 
 class Moment extends BaseController
 {
+    //发布动态
     public function addMoment()
     {
         $request = (new MomentNew())->goCheck();
@@ -48,6 +51,7 @@ class Moment extends BaseController
         return $this->xdreturn($data);
     }
 
+    //获取热门动态
     public function getHot($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -67,6 +71,8 @@ class Moment extends BaseController
         ]);
     }
 
+
+    //获取关注好友动态
     public function getFollow($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -91,5 +97,14 @@ class Moment extends BaseController
             'data' => $data,
             'current_page' => $pagingMoments->getCurrentPage(),
         ]);
+    }
+
+    //动态点赞
+    public function clickZan($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $uid = Token::getCurrentUid();
+        $isZan = MomentService::dealZan($id, $uid);
+        return $this->xdreturn($isZan);
     }
 }
