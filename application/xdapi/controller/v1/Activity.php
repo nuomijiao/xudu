@@ -12,7 +12,7 @@ class Activity extends BaseController
 {
 
     public function getActivityList(){
-        $activity = WhActivity::getAcivity();
+        $activity = WhActivity::getActivity();
         if ($activity->isEmpty()) {
             throw new ActivityException();
         }

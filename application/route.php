@@ -32,7 +32,7 @@ use think\Route;
 Route::get('api/:version/category', 'xdapi/:version.Category/getCategory');
 
 //首页轮播
-Route::get('api/:version/banner', 'xdapi/:version.Banner/getBanner');
+Route::get('api/:version/banner', 'xdapi/:version.Banner/getBannerList');
 
 
 //发送验证码
@@ -61,3 +61,7 @@ Route::get('api/:version/getfriendapplylist', 'xdapi/:version.Friends/getApplyLi
 Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatus');
 //获取好友列表
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
+
+//活动
+Route::get('api/:version/activity', 'xdapi/:version.Activity/getActivityList');
+

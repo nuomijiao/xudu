@@ -15,8 +15,13 @@ class WhActivity extends BaseModel
 
     ];
 
+    public function category()
+    {
+        return $this->belongsTo('WhActivity', 'cat_id', 'id');
+    }
+
     public static function getActivity() {
-        $activity = self::order('sort_order asc')->select();
+        $activity = self::order('id desc')->select();
         return $activity;
     }
 }
