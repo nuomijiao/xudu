@@ -60,18 +60,18 @@ class Moment extends Picture
             if ($zan && $zan->delete_time > 0) {
                 //点赞delete_time = 0，赞+1
                 $is_zan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => 0]);
-                Db::table('wh_moments')->where('id', '=', $id)->setInc('zan_number');
+                Db::name('wh_moments')->where('id', '=', $id)->setInc('zan_number');
             } elseif ($zan && $zan->delete_time == 0) {
                 //取消赞delete_time = time()， 赞-1
                 $is_zan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => time()]);
-                Db::table('wh_moments')->where('id', '=', $id)->setDec('zan_number');
+                Db::name('wh_moments')->where('id', '=', $id)->setDec('zan_number');
             } elseif (!$zan) {
                 //点赞 create一条数据,赞+1
                 $is_zan = WhMomentsZan::create([
                     'moment_id' => $id,
                     'user_id' => $uid,
                 ]);
-                Db::table('wh_moments')->where('id', '=', $id)->setInc('zan_number');
+                Db::name('wh_moments')->where('id', '=', $id)->setInc('zan_number');
             }
             Db::commit();
         } catch(Exception $ex) {
