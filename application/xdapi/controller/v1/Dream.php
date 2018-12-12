@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ * User: Sweet Jiao
+ * Date: 2018/10/24 0024
+ * Time: 0:27
+ */
 
 namespace app\xdapi\controller\v1;
 
@@ -8,7 +13,7 @@ use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActivity;
 
 
-class Activity extends BaseController
+class Dream extends BaseController
 {
 
     public function getActivityList(){
@@ -16,6 +21,6 @@ class Activity extends BaseController
         if ($activity->isEmpty()) {
             throw new ActivityException();
         }
-        return $this->xdreturn($activity);
+        $this->success_return($activity);
     }
 }

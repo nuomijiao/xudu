@@ -16,6 +16,6 @@ class Banner extends BaseController
         if ($banner->isEmpty()) {
             throw new BannerException();
         }
-        $this->success_return($banner);
+        return $this->xdreturn($banner);
     }
 }
