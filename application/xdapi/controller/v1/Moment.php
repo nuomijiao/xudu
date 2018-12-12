@@ -100,7 +100,7 @@ class Moment extends BaseController
     }
 
     //动态点赞
-    public function clickZan($id)
+    public function clickZan($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
         $uid = Token::getCurrentUid();
