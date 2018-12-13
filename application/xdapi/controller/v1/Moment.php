@@ -51,7 +51,7 @@ class Moment extends BaseController
         return $this->xdreturn($data);
     }
 
-    //获取热门动态
+    //获取热门动态，没有评论
     public function getHot($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -72,7 +72,7 @@ class Moment extends BaseController
     }
 
 
-    //获取关注好友动态
+    //获取关注好友动态，没有评论
     public function getFollow($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -109,7 +109,7 @@ class Moment extends BaseController
     }
 
 
-    //获取动态详情
+    //获取动态详情,包括评论
     public function getCommentDetail($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
@@ -122,6 +122,8 @@ class Moment extends BaseController
         $friends  = WhFriends::checkIsFriends($commentDetail->user_id, $uid);
         if ($friends) {
             $commentDetail->is_friends = 1;
+        } else {
+            $commentDetail->is_friends = 0;
         }
         return $this->xdreturn($commentDetail);
     }
