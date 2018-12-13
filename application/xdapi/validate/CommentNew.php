@@ -18,6 +18,6 @@ class CommentNew extends BaseValidate
 
     protected $message = [
         'id' => 'id必须是正整数',
-        'content' => '评论内容不能为空'
+        'content' => 'comment不能为空'
     ];
 }

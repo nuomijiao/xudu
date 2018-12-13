@@ -126,5 +126,6 @@ class Moment extends Picture
             Db::rollback();
             throw $ex;
         }
+        return $comment;
     }
 }
