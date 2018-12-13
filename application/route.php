@@ -55,6 +55,8 @@ Route::post('api/:version/zanmoment', 'xdapi/:version.Moment/clickZan');
 Route::get('api/:version/momentdetail/:id', 'xdapi/:version.Moment/getCommentDetail');
 //评论动态
 Route::post('api/:version/commentmoment', 'xdapi/:version.Moment/comment');
+//回复评论
+Route::post('api/:version/replycomment', 'xdapi/:version.Moment/replyComment');
 
 
 //申请添加好友

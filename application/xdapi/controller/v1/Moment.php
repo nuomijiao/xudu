@@ -130,20 +130,25 @@ class Moment extends BaseController
 
 
 
-    //评论动态
+    //评论动态 $id 动态的id
     public function comment($id = '', $content = '')
     {
         (new CommentNew())->goCheck();
         $uid = Token::getCurrentUid();
         //判断操作是否合法，自己的动态自己不能评论，非好友动态不能评论
-        $moment = MomentService::checkOperateMoment($id, $uid);
+        $moment = MomentService::checkOperateComment($id, $uid);
         $comment = MomentService::addComment($uid, $moment->id, $content, $moment->user_id);
         return $this->xdreturn($comment);
     }
 
-    //作者回复评论
+    //作者回复评论,$id 评论的id
     public function replyComment($id = '', $content = '')
     {
-
+        (new CommentNew())->goCheck();
+        $uid = Token::getCurrentUid();
+        //判断操作是否合法，不能回复给别的作者的评论
+        $comment = MomentService::checkOperateReply($id, $uid);
+        $replycomment = MomentService::addComment($uid, $comment->moment_id, $content, $comment->user_id, $id);
+        return $this->xdreturn($replycomment);
     }
 }
