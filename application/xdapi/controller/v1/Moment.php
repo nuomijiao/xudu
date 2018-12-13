@@ -14,11 +14,11 @@ use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMoments;
-use app\xdapi\model\WhMomentsZan;
+use app\xdapi\service\Moment as MomentService;
 use app\xdapi\service\Token;
+use app\xdapi\validate\CommentNew;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\MomentNew;
-use app\xdapi\service\Moment as MomentService;
 use app\xdapi\validate\PagingParameter;
 
 class Moment extends BaseController
@@ -106,5 +106,42 @@ class Moment extends BaseController
         $uid = Token::getCurrentUid();
         $isZan = MomentService::dealZan($id, $uid);
         return $this->xdreturn($isZan);
+    }
+
+
+    //获取动态详情
+    public function getCommentDetail($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $uid = Token::getCurrentUid();
+        $commentDetail = WhMoments::getDetail($id, $uid);
+        if (!$commentDetail) {
+            throw new MomentsException();
+        }
+        //检查是否是好友
+        $friends  = WhFriends::checkIsFriends($commentDetail->user_id, $uid);
+        if ($friends) {
+            $commentDetail->is_friends = 1;
+        }
+        return $this->xdreturn($commentDetail);
+    }
+
+
+
+    //评论动态
+    public function comment($id = '', $content = '')
+    {
+        (new CommentNew())->goCheck();
+        $uid = Token::getCurrentUid();
+        //判断操作是否合法，自己的动态自己不能评论，非好友动态不能评论
+        $moment = MomentService::checkOperateMoment($id, $uid);
+        $comment = MomentService::addComment($uid, $moment->id, $content, $moment->user_id);
+        return $this->xdreturn($comment);
+    }
+
+    //作者回复评论
+    public function replyComment($id = '', $content = '')
+    {
+
     }
 }
