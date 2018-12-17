@@ -146,4 +146,10 @@ class Moment extends Picture
         }
         return $comment;
     }
+
+    public static function getComments($id)
+    {
+        $comments = WhMomentsDis::getCommentsById($id);
+
+    }
 }

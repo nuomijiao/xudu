@@ -125,6 +125,8 @@ class Moment extends BaseController
         } else {
             $commentDetail->is_friends = 0;
         }
+        $comments = MomentService::getComments($id);
+        $commentDetail->comments = $comments;
         return $this->xdreturn($commentDetail);
     }
 

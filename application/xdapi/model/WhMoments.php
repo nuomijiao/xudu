@@ -35,6 +35,8 @@ class WhMoments extends BaseModel
         return $this->hasMany('WhMomentsZan', 'moment_id', 'id');
     }
 
+
+
     public static function getHotMoments($uid, $page, $size)
     {
         return self::with(['allImg'])->with([
