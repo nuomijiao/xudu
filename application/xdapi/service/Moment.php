@@ -153,13 +153,10 @@ class Moment extends Picture
         foreach ($comments->toArray() as $key => $value) {
             if ($value['pid'] == 0) {
                 $comm[$value['id']] = $value;
-            }
-        }
-        foreach ($comments->toArray() as $key => $value) {
-            if ($value['pid'] > 0) {
+            } else {
                 $comm[$value['pid']]['reply'] = $value;
             }
         }
-        return $comm;
+        return array_reverse($comm);
     }
 }

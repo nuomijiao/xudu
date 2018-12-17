@@ -44,7 +44,7 @@ class WhMomentsDis extends BaseModel
             'toUser' => function($query) {
                 $query->field(['id', 'user_name']);
             }
-        ])->where('moment_id', '=', $id)->order('create_time', 'desc')->select();
+        ])->where('moment_id', '=', $id)->order('create_time', 'asc')->select();
         return $comments;
     }
 }
