@@ -149,6 +149,14 @@ class Moment extends Picture
     public static function getComments($id)
     {
         $comments = WhMomentsDis::getCommentsById($id);
-        return $comments;
+        $comm = [];
+        foreach ($comments->toArray() as $key => $value) {
+            if ($value['pid'] == 0) {
+                $comm[$value['id']] = $value;
+            } else {
+                $comm[$value['pid']]['child'] = $value;
+            }
+        }
+        return $comm;
     }
 }
