@@ -15,7 +15,7 @@ use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
-use app\xdapi\service\Friedns as FriendsService;
+use app\xdapi\service\Friends as FriendsService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;

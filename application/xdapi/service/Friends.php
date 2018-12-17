@@ -17,7 +17,7 @@ use app\xdapi\model\WhFriendsApply;
 use think\Db;
 use think\Exception;
 
-class Friedns
+class Friends
 {
     public static function checkOperateApply($applyId)
     {
