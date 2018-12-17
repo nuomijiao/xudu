@@ -71,3 +71,10 @@ Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
 //活动
 Route::get('api/:version/activity', 'xdapi/:version.Activity/getActivityList');
 
+
+//添加许愿
+Route::post('api/:version/addwish', 'xdapi/:version.Wishes/addWish');
+//我的愿望
+Route::get('api/:version/mywish', 'xdapi/:version.Wishes/myWish');
+//愿望列表
+Route::get('api/:version/wisheslist', 'xdapi/:version.Wishes/getWishes');
