@@ -150,7 +150,7 @@ class Moment extends Picture
     {
         $comments = WhMomentsDis::getCommentsById($id);
         $comm = [];
-        foreach ($comments->toArray() as $key => $value) {
+        foreach ($comments->toArray() as $key => &$value) {
             if ($value['pid'] == 0) {
                 $comm[$value['id']] = $value;
             } else {
