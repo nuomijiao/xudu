@@ -36,7 +36,7 @@ class WhWishes extends BaseModel
             'user' => function($query) {
                 $query->field(['id', 'user_name', 'head_img']);
             }
-        ])->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
+        ])->whereTime('create_time','year')->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
     }
 
 }
