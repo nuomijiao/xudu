@@ -25,7 +25,7 @@ class WhMomentsDis extends BaseModel
         return $this->belongsTo('WhUser', 'to_user_id', 'id');
     }
 
-    public function getCommentsById($id)
+    public static function getCommentsById($id)
     {
         $comments = WhMomentsDis::with([
             'fromUser' => function($query) {
