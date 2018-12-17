@@ -51,7 +51,7 @@ class Moment extends BaseController
         return $this->xdreturn($data);
     }
 
-    //获取热门动态
+    //获取热门动态，没有评论
     public function getHot($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -72,7 +72,7 @@ class Moment extends BaseController
     }
 
 
-    //获取关注好友动态
+    //获取关注好友动态，没有评论
     public function getFollow($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
@@ -109,7 +109,7 @@ class Moment extends BaseController
     }
 
 
-    //获取动态详情
+    //获取动态详情,包括评论
     public function getCommentDetail($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
@@ -122,26 +122,35 @@ class Moment extends BaseController
         $friends  = WhFriends::checkIsFriends($commentDetail->user_id, $uid);
         if ($friends) {
             $commentDetail->is_friends = 1;
+        } else {
+            $commentDetail->is_friends = 0;
         }
+        $comments = MomentService::getComments($id);
+        $commentDetail->comments = $comments;
         return $this->xdreturn($commentDetail);
     }
 
 
 
-    //评论动态
+    //评论动态 $id 动态的id
     public function comment($id = '', $content = '')
     {
         (new CommentNew())->goCheck();
         $uid = Token::getCurrentUid();
         //判断操作是否合法，自己的动态自己不能评论，非好友动态不能评论
-        $moment = MomentService::checkOperateMoment($id, $uid);
+        $moment = MomentService::checkOperateComment($id, $uid);
         $comment = MomentService::addComment($uid, $moment->id, $content, $moment->user_id);
         return $this->xdreturn($comment);
     }
 
-    //作者回复评论
+    //作者回复评论,$id 评论的id
     public function replyComment($id = '', $content = '')
     {
-
+        (new CommentNew())->goCheck();
+        $uid = Token::getCurrentUid();
+        //判断操作是否合法，不能回复给别的作者的评论
+        $comment = MomentService::checkOperateReply($id, $uid);
+        $replycomment = MomentService::addComment($uid, $comment->moment_id, $content, $comment->user_id, $id);
+        return $this->xdreturn($replycomment);
     }
 }

@@ -37,7 +37,6 @@ class Moment extends Picture
                 'user_id' => $uid,
             ]);
             $moment_id = $moment->id;
-            $img_ids = '';
             foreach ($imgarr as $k => &$v) {
                 $v['moment_id'] = $moment_id;
                 WhMomentImage::create($v);
@@ -86,7 +85,7 @@ class Moment extends Picture
 
     }
 
-    public static function checkOperateMoment($momentId, $uid)
+    public static function checkOperateComment($momentId, $uid)
     {
         $moment = WhMoments::get($momentId);
         if (!$moment) {
@@ -108,7 +107,25 @@ class Moment extends Picture
         return $moment;
     }
 
-    public static function addComment($uid, $id, $content, $toUserId)
+    public static function checkOperateReply($commentId, $uid)
+    {
+        $comment = WhMomentsDis::get($commentId);
+        if (!$comment) {
+            throw new MomentsException([
+                'msg' => '要回复的评论不存在',
+                'errorCode' => 70005,
+            ]);
+        }
+        if ($comment->to_user_id != $uid) {
+            throw new MomentsException([
+                'msg' => '不能评论非自己动态的评论',
+                'errorCode' => 70006,
+            ]);
+        }
+        return $comment;
+    }
+
+    public static function addComment($uid, $id, $content, $toUserId, $pid = 0)
     {
         Db::startTrans();
         try {
@@ -116,7 +133,7 @@ class Moment extends Picture
                 'moment_id' => $id,
                 'user_id' => $uid,
                 'content' => $content,
-                'pid' => 0,
+                'pid' => $pid,
                 'to_user_id' => $toUserId,
             ]);
             //评论数加1
@@ -126,5 +143,20 @@ class Moment extends Picture
             Db::rollback();
             throw $ex;
         }
+        return $comment;
+    }
+
+    public static function getComments($id)
+    {
+        $comments = WhMomentsDis::getCommentsById($id);
+        $comm = [];
+        foreach ($comments->toArray() as $key => $value) {
+            if ($value['pid'] == 0) {
+                $comm[$value['id']] = $value;
+            } else {
+                $comm[$value['pid']]['reply'] = $value;
+            }
+        }
+        return array_reverse($comm);
     }
 }
