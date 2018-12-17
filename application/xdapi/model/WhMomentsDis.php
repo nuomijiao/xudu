@@ -16,7 +16,7 @@ class WhMomentsDis extends BaseModel
     protected $updateTime = false;
 
     protected $hidden = [
-        'pid', 'user_id', 'to_user_id',
+        'user_id', 'to_user_id',
     ];
 
     public function getCreateTimeAttr($value)
