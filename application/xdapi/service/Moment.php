@@ -37,7 +37,6 @@ class Moment extends Picture
                 'user_id' => $uid,
             ]);
             $moment_id = $moment->id;
-            $img_ids = '';
             foreach ($imgarr as $k => &$v) {
                 $v['moment_id'] = $moment_id;
                 WhMomentImage::create($v);
