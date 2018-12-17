@@ -33,7 +33,7 @@ class WhMomentsDis extends BaseModel
             }
         ])->with([
             'toUser' => function($query) {
-                $query->field('id', 'user_name');
+                $query->field(['id', 'user_name']);
             }
         ])->where('moment_id', '=', $id)->order('create_time', 'desc')->select();
         return $comments;
