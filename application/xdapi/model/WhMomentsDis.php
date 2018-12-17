@@ -15,6 +15,15 @@ class WhMomentsDis extends BaseModel
 
     protected $updateTime = false;
 
+    protected $hidden = [
+        'pid', 'user_id', 'to_user_id',
+    ];
+
+    public function getCreateTimeAttr($value)
+    {
+        return date('Y年m月d日', $value);
+    }
+
     public function fromUser()
     {
         return $this->belongsTo('WhUser', 'user_id', 'id');
