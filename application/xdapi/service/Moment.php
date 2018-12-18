@@ -61,15 +61,15 @@ class Moment extends Picture
         try {
             if ($zan && $zan->delete_time > 0) {
                 //点赞delete_time = 0，赞+1
-                $is_zan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => 0]);
+                $isZan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => 0]);
                 Db::name('wh_moments')->where('id', '=', $id)->setInc('zan_number');
             } elseif ($zan && $zan->delete_time == 0) {
                 //取消赞delete_time = time()， 赞-1
-                $is_zan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => time()]);
+                $isZan = WhMomentsZan::update(['id'=>$zan->id, 'delete_time' => time()]);
                 Db::name('wh_moments')->where('id', '=', $id)->setDec('zan_number');
             } elseif (!$zan) {
                 //点赞 create一条数据,赞+1
-                $is_zan = WhMomentsZan::create([
+                $isZan = WhMomentsZan::create([
                     'moment_id' => $id,
                     'user_id' => $uid,
                     'delete_time' => 0
@@ -81,7 +81,7 @@ class Moment extends Picture
             Db::rollback();
             throw $ex;
         }
-        return $is_zan;
+        return $isZan;
 
     }
 

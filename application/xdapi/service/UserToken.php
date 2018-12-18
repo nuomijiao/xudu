@@ -10,10 +10,12 @@ namespace app\xdapi\service;
 
 
 use app\lib\exception\ParameterException;
+use app\lib\exception\UserException;
+use app\xdapi\model\WhUser;
 
 class UserToken extends Token
 {
-    public function getToken($mobile, $pwd, $uid = null)
+    public function getToken($uid = null)
     {
         $values = [
             'uid' => $uid,
@@ -33,5 +35,18 @@ class UserToken extends Token
             ]);
         }
         return $token;
+    }
+
+    public static function checkIsMember($uid)
+    {
+        $user = WhUser::get($uid);
+        if (!$user) {
+            throw new UserException();
+        }
+        if ($user->member_end_time > time()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

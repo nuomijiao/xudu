@@ -131,7 +131,6 @@ class Moment extends BaseController
     }
 
 
-
     //评论动态 $id 动态的id
     public function comment($id = '', $content = '')
     {

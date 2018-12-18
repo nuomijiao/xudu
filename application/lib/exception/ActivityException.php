@@ -11,6 +11,6 @@ namespace app\lib\exception;
 
 class ActivityException extends BaseException
 {
-    public $msg = '请求活动类目不存在';
+    public $msg = '请求的活动不存在';
     public $errorCode = 20000;
 }

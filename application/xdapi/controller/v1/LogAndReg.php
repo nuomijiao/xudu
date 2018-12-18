@@ -55,7 +55,7 @@ class LogAndReg extends BaseController
             $user = WhUser::create($dataArray);
             if ($user->id) {
                 $reg = new UserToken();
-                $token = $reg->getToken($mobile, $pwd, $user->id);
+                $token = $reg->getToken($user->id);
                 return $this->xdreturn(['token'=>$token]);
             }
         }
@@ -81,7 +81,7 @@ class LogAndReg extends BaseController
             ]);
         } else {
             $log = new UserToken();
-            $token = $log->getToken($mobile, $pwd, $user->id);
+            $token = $log->getToken($user->id);
             return $this->xdreturn(['token'=>$token]);
         }
     }

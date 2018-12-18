@@ -68,8 +68,17 @@ Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatu
 //获取好友列表
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
 
-//活动
-Route::get('api/:version/activity', 'xdapi/:version.Activity/getActivityList');
+
+
+//获取热门活动
+Route::get('api/:version/hotactivity', 'xdapi/:version.Activity/getHot');
+//获取活动详情
+Route::get('api/:version/activitydetail/:id', 'xdapi/:version.Activity/getDetail');
+//获取分类下的活动
+Route::get('api/:version/activitybycat/:id', 'xdapi/:version.Activity/getActByCat');
+//获取收藏的活动列表
+Route::get('api/:version/collectlist', 'xdapi/:version.Activity/getCollectList');
+
 
 
 //添加许愿
@@ -78,3 +87,9 @@ Route::post('api/:version/addwish', 'xdapi/:version.Wishes/addWish');
 Route::get('api/:version/mywish', 'xdapi/:version.Wishes/myWish');
 //愿望列表
 Route::get('api/:version/wisheslist', 'xdapi/:version.Wishes/getWishes');
+
+
+//确定活动订单
+Route::get('api/:version/sureactorder/:id', 'xdapi/:version.Order/sureActOrder');
+//生成活动订单
+Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');

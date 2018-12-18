@@ -15,13 +15,73 @@ class WhActivity extends BaseModel
 
     ];
 
-    public function category()
+    public function getMainImgAttr($value)
     {
-        return $this->belongsTo('WhActivity', 'cat_id', 'id');
+        return config('setting.domain').$value;
     }
 
-    public static function getActivity() {
-        $activity = self::order('id desc')->select();
-        return $activity;
+    public function province()
+    {
+        return $this->belongsTo('WhRegion', 'province_id', 'id');
     }
+
+
+    public function city()
+    {
+        return $this->belongsTo('WhRegion', 'city_id', 'id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('WhRegion', 'district_id', 'id');
+    }
+
+    public function myCollect()
+    {
+        return $this->hasMany('WhActCollect', 'act_id', 'id');
+    }
+
+    public static function getHotActivity($page, $size)
+    {
+        return self::with([
+            'city' => function($query) {
+                $query->field(['name', 'fullname', 'id']);
+            }
+        ])->where('is_hot', '=', 1)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
+    }
+
+    public static function getActDetail($id, $uid)
+    {
+        return self::with([
+            'province' => function($query) {
+                $query->field(['name', 'fullname', 'id']);
+            }
+        ])->with([
+            'city' => function($query) {
+                $query->field(['name', 'fullname', 'id']);
+            }
+        ])->with([
+            'district' => function($query) {
+                $query->field(['name', 'fullname', 'id']);
+            }
+        ])->with([
+            'myCollect' => function ($query) use ($uid) {
+                $query->where('user_id', '=', $uid);
+            }
+        ])->where('id', '=', $id)->find();
+    }
+
+    public static function getBrief($id)
+    {
+        return self::field(['id','act_name','act_ad_price','act_ch_price','act_ad_member_price', 'act_ch_member_price', 'main_img', 'start_time', 'act_attach'])->where('id', '=', $id)->find();
+    }
+
+    public function getActivityByCat($id, $page, $size)
+    {
+        return self::where('cat_id', '=', $id)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id','main_img'])->paginate($size, true, ['page' => $page]);
+    }
+
+
+
+
 }
