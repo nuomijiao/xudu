@@ -45,7 +45,7 @@ class WhActivity extends BaseModel
     {
         return self::with([
             'city' => function($query) {
-                $query->field(['name', 'fullname', 'id']);
+                $query->field(['name', 'shortname', 'id']);
             }
         ])->where('is_hot', '=', 1)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
@@ -54,15 +54,15 @@ class WhActivity extends BaseModel
     {
         return self::with([
             'province' => function($query) {
-                $query->field(['name', 'fullname', 'id']);
+                $query->field(['name', 'shortname', 'id']);
             }
         ])->with([
             'city' => function($query) {
-                $query->field(['name', 'fullname', 'id']);
+                $query->field(['name', 'shortname', 'id']);
             }
         ])->with([
             'district' => function($query) {
-                $query->field(['name', 'fullname', 'id']);
+                $query->field(['name', 'shortname', 'id']);
             }
         ])->with([
             'myCollect' => function ($query) use ($uid) {
