@@ -45,7 +45,7 @@ class Activity extends BaseController
         if (!$activity) {
             throw new ActivityException();
         }
-        $banner_img = explode(',', $activity->benner_image);
+        $banner_img = explode(',', $activity->banner_imgs);
         foreach ($banner_img as $key => $value) {
             $banner_img[$key] = config('setting.domain').$value;
         }

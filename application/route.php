@@ -80,7 +80,6 @@ Route::get('api/:version/activitybycat/:id', 'xdapi/:version.Activity/getActByCa
 Route::get('api/:version/collectlist', 'xdapi/:version.Activity/getCollectList');
 
 
-
 //添加许愿
 Route::post('api/:version/addwish', 'xdapi/:version.Wishes/addWish');
 //我的愿望
