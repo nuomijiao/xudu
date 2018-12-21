@@ -29,7 +29,7 @@ class Category extends BaseController
     //后台用接口
     public function catlist()
     {
-        $cat_list = WhCategory::field('cat_name')->select()->toArray();
+        $cat_list = WhCategory::field(['cat_name'])->select()->toArray();
         $cat_name = [];
         foreach ($cat_list as $key=>$value){
             array_push($cat_name, $value['cat_name']);
