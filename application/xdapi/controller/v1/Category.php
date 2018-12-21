@@ -24,4 +24,16 @@ class Category extends BaseController
         }
         return $this->xdreturn($category);
     }
+
+
+    //后台用接口
+    public function catlist()
+    {
+        $cat_list = WhCategory::field('cat_name')->select()->toArray();
+        $cat_name = [];
+        foreach ($cat_list as $key=>$value){
+            array_push($cat_name, $value['cat_name']);
+        }
+        return json($cat_name);
+    }
 }

@@ -120,4 +120,11 @@ class Activity extends BaseController
     }
 
 
+    //后台用接口
+    public function actlist()
+    {
+        $cat_list = WhActivity::field('id','act_name')->select()->toArray();
+        return json($cat_list);
+    }
+
 }
