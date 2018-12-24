@@ -49,7 +49,7 @@ class Order
     }
 
 
-    public function CreateMemOrder($dataArray, $uid)
+    public static function CreateMemOrder($dataArray, $uid)
     {
         $mem = WhMemberGrade::get($dataArray['mem_id']);
         if (!$mem) {
@@ -70,7 +70,7 @@ class Order
 
     }
 
-    private function makeOrderNo($type)
+    private static function makeOrderNo($type)
     {
         if (OrderTypeEnum::Activity == $type) {
             $yCode = array('A', 'B', 'C', 'E', 'F');
