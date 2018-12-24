@@ -65,6 +65,7 @@ class Order
         $data['price'] = $mem->price;
         $data['name_snap'] = $mem->name;
         $data['brief_snap'] = $mem->brief;
+        $data['snap'] = json_encode($mem);
         $order = WhMemOrder::create($data);
         return $order;
 
