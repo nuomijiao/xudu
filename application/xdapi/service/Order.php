@@ -42,7 +42,7 @@ class Order
         }
         $data['snap_name'] = $act->act_name;
         $data['snap_image'] = $act->getData('main_img');
-        $data['act_snap'] = json($act->toArray());
+        $data['act_snap'] = json_encode($act);
         $data['total_price'] = $data['adult_price'] * $data['adult_number'] + $data['child_price'] * $data['child_number'];
         $order = WhActOrder::create($data);
         return $order;
