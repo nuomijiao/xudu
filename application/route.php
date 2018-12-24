@@ -92,3 +92,6 @@ Route::get('api/:version/wisheslist', 'xdapi/:version.Wishes/getWishes');
 Route::get('api/:version/sureactorder/:id', 'xdapi/:version.Order/sureActOrder');
 //生成活动订单
 Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');
+
+//确定会员订单
+Route::get('api/:version/surememorder/:id', 'xdapi/:version.Order/sureMemOrder');

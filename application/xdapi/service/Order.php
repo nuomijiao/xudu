@@ -12,8 +12,11 @@ namespace app\xdapi\service;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\enum\OrderTypeEnum;
 use app\lib\exception\ActivityException;
+use app\lib\exception\OrderException;
 use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
+use app\xdapi\model\WhMemberGrade;
+use app\xdapi\model\WhMemOrder;
 
 class Order
 {
@@ -37,11 +40,35 @@ class Order
             $data['adult_price'] = $act->act_ad_price;
             $data['child_price'] = $act->act_ch_price;
         }
+        $data['snap_name'] = $act->act_name;
+        $data['snap_image'] = $act->main_img;
+        $data['act_snap'] = json($act);
         $data['total_price'] = $data['adult_price'] * $data['adult_number'] + $data['child_price'] * $data['child_number'];
         $order = WhActOrder::create($data);
         return $order;
     }
 
+
+    public function CreateMemOrder($dataArray, $uid)
+    {
+        $mem = WhMemberGrade::get($dataArray['mem_id']);
+        if (!$mem) {
+            throw new OrderException([
+                'msg' => '会员项不存在',
+                'errorCode' => 600021,
+            ]);
+        }
+        $data = $dataArray;
+        $data['user_id'] = $uid;
+        $data['order_sn'] = self::makeOrderNo(OrderTypeEnum::Member);
+        $data['status'] = OrderStatusEnum::Unpaid;
+        $data['price'] = $mem->price;
+        $data['name_snap'] = $mem->name;
+        $data['brief_snap'] = $mem->brief;
+        $order = WhMemOrder::create($data);
+        return $order;
+
+    }
 
     private function makeOrderNo($type)
     {
@@ -55,4 +82,6 @@ class Order
                 '%02d', rand(0, 99));
         return $orderSn;
     }
+
+
 }
