@@ -41,7 +41,7 @@ class Order
             $data['child_price'] = $act->act_ch_price;
         }
         //主图图片地址原始值
-        $act->main_img = $act->getData('main_img');
+        $act->main_img_origion = $act->getData('main_img');
         $data['snap_name'] = $act->act_name;
         $data['snap_image'] = $act->getData('main_img');
         $data['act_snap'] = json_encode($act);
