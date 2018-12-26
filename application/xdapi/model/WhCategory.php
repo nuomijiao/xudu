@@ -15,6 +15,11 @@ class WhCategory extends BaseModel
         'sort_order'
     ];
 
+    public function getImgUrlAttr($value)
+    {
+        return config('setting.domain').$value;
+    }
+
     public static function getCategory() {
         $banner = self::order('sort_order asc')->select();
         return $banner;
