@@ -87,7 +87,6 @@ Route::get('api/:version/mywish', 'xdapi/:version.Wishes/myWish');
 //愿望列表
 Route::get('api/:version/wisheslist', 'xdapi/:version.Wishes/getWishes');
 
-
 //确定活动订单
 Route::get('api/:version/sureactorder/:id', 'xdapi/:version.Order/sureActOrder');
 //生成活动订单
