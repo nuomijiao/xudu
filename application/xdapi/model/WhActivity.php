@@ -73,11 +73,7 @@ class WhActivity extends BaseModel
 
     public function getActAttachAttr($value, $data)
     {
-        $act_attach_param = [];
-        foreach (unserialize($value) as $key => $value) {
-            array_push($act_attach_param, $value['k']."@".$value['v']);
-        }
-        return implode('|', $act_attach_param);
+        return unserialize($value);
 
     }
 
