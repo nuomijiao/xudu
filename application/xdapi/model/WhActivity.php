@@ -71,6 +71,16 @@ class WhActivity extends BaseModel
         ])->where('id', '=', $id)->find();
     }
 
+    public function getActAttachAttr($value, $data)
+    {
+        $act_attach_param = [];
+        foreach (unserialize($value) as $key => $value) {
+            array_push($act_attach_param, $value['k']."@".$value['v']);
+        }
+        return implode('|', $act_attach_param);
+
+    }
+
     public static function getBrief($id)
     {
         return self::field(['id','act_name','act_ad_price','act_ch_price','act_ad_member_price', 'act_ch_member_price', 'main_img', 'start_time', 'act_attach'])->where('id', '=', $id)->find();
