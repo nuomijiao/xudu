@@ -13,6 +13,6 @@ class WhRegion extends BaseModel
 {
     public static function getCity()
     {
-        return self::where('level', '=', 2)->select();
+        return self::where('level', '=', 2)->whereNotIn('id', '1707,1822,2306,3317')->select();
     }
 }
