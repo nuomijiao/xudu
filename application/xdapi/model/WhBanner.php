@@ -15,6 +15,11 @@ class WhBanner extends BaseModel
 
     ];
 
+    public function getImgUrlAttr($value)
+    {
+        return config('setting.domain').$value;
+    }
+
     public static function getBanner() {
         $banner = self::order('sort_order asc')->select();
         return $banner;
