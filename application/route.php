@@ -96,3 +96,7 @@ Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');
 //确定会员订单
 Route::get('api/:version/surememorder/:id', 'xdapi/:version.Order/sureMemOrder');
 Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
+
+//获取城市地址拼音排序列表
+Route::get('api/:version/getcitylist', 'xdapi/:version.Character/getCityList');
+

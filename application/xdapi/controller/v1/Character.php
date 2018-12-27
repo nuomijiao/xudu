@@ -17,7 +17,7 @@ class Character extends BaseController
     public function getCityList()
     {
         $cityList = WhRegion::getCity();
-        $city = CharacterService::groupByInitials($cityList, 'pinyin');
+        $city = CharacterService::groupByInitials($cityList->toArray(), 'pinyin');
         return $this->xdreturn($city);
     }
 }
