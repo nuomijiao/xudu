@@ -75,7 +75,7 @@ Route::get('api/:version/hotactivity', 'xdapi/:version.Activity/getHot');
 //获取活动详情
 Route::get('api/:version/activitydetail/:id', 'xdapi/:version.Activity/getDetail');
 //获取分类下的活动
-Route::get('api/:version/activitybycat/:id', 'xdapi/:version.Activity/getActByCat');
+Route::post('api/:version/activitybycat', 'xdapi/:version.Activity/getActByCat');
 //获取收藏的活动列表
 Route::get('api/:version/collectlist', 'xdapi/:version.Activity/getCollectList');
 //收藏活动
