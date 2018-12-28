@@ -51,7 +51,7 @@ class LogAndReg extends BaseController
             //新增用户数据库
             $dataArray = [
                 'mobile_number' => $mobile, 'user_pwd' => md5($pwd), 'last_login' => $timenow,
-                'user_name' => self::randUserName(), 'id_number' => self::randIdNumber(),
+                'user_name' => self::randUserName(), 'id_number' => self::randIdNumber(), 'head_img' => '/assets/img/user_head.png',
             ];
             $user = WhUser::create($dataArray);
             if ($user->id) {
