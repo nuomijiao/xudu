@@ -9,6 +9,8 @@
 namespace app\xdapi\model;
 
 
+use app\lib\enum\ActivityTypeEnum;
+
 class WhActivity extends BaseModel
 {
     protected $hidden = [
@@ -82,9 +84,16 @@ class WhActivity extends BaseModel
         return self::field(['id','act_name','act_ad_price','act_ch_price','act_ad_member_price', 'act_ch_member_price', 'main_img', 'start_time', 'act_attach'])->where('id', '=', $id)->find();
     }
 
-    public static function getActivityByCat($id, $page, $size)
+    public static function getActivityByCat($id, $page, $size, $type, $searchkey)
     {
-        return self::where('cat_id', '=', $id)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id','main_img'])->paginate($size, true, ['page' => $page]);
+        $where = [];
+        if (ActivityTypeEnum::Hot == $type) {
+            $where['is_hot'] = ['=', ActivityTypeEnum::Hot];
+        }
+        $where['act_name'] = ['like', "%".$searchkey."%"];
+
+        return self::where('cat_id', '=', $id)->where($where)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
+
     }
 
 

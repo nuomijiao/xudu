@@ -3,11 +3,13 @@
 
 namespace app\xdapi\controller\v1;
 
+use app\lib\enum\ActivityTypeEnum;
 use app\lib\exception\ActivityException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
 use app\xdapi\model\WhActivity;
 use app\xdapi\service\Token;
+use app\xdapi\validate\ActByCat;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\PagingParameter;
 
@@ -99,11 +101,10 @@ class Activity extends BaseController
     }
 
     //获取分类下的活动列表
-    public function getActByCat($id = '', $page = 1, $size = 10)
+    public function getActByCat($id = '', $page = 1, $size = 10, $type = ActivityTypeEnum::All, $searchkey = '')
     {
-        (new IDMustBePositiveInt())->goCheck();
-        (new PagingParameter())->goCheck();
-        $pagingAct = WhActivity::getActivityByCat($id, $page, $size);
+        (new ActByCat())->goCheck();
+        $pagingAct = WhActivity::getActivityByCat($id, $page, $size, $type, $searchkey);
         if ($pagingAct->isEmpty()) {
             throw new ActivityException([
                 'msg' => '分类下活动已见底线',
