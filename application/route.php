@@ -102,4 +102,6 @@ Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
 
 //获取城市地址拼音排序列表
 Route::get('api/:version/getcitylist', 'xdapi/:version.Character/getCityList');
+///获取城市的id
+Route::post('api/:version/getcityid', 'xdapi/:version.Chatacter/GetCityId');
 
