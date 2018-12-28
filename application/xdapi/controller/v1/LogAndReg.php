@@ -38,7 +38,7 @@ class LogAndReg extends BaseController
         }
         //检查验证码是否正确
         $codeInfo = WhSmscode::checkCode($mobile, $code, SmsCodeTypeEnum::ToRegister);
-        if (!$codeInfo || $codeInfo['code'] != $code || $codeInfo['expire_time'] < time() || $codeInfo['using_time'] > 0) {
+        if (!$codeInfo || $codeInfo['validate_code'] != $code || $codeInfo['expire_time'] < time() || $codeInfo['using_time'] > 0) {
             throw new UserException([
                 'msg' => '验证码不匹配或已过期',
                 'errorCode' => 50005,
