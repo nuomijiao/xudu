@@ -79,7 +79,7 @@ Route::post('api/:version/activitybycat', 'xdapi/:version.Activity/getActByCat')
 //获取收藏的活动列表
 Route::get('api/:version/collectlist', 'xdapi/:version.Activity/getCollectList');
 //收藏活动
-Route::get('api/:version/collectact', 'xdapi/:version.Activity/Collect');
+Route::get('api/:version/collectact/:id', 'xdapi/:version.Activity/collect');
 
 
 
