@@ -82,7 +82,7 @@ class WhActivity extends BaseModel
         return self::field(['id','act_name','act_ad_price','act_ch_price','act_ad_member_price', 'act_ch_member_price', 'main_img', 'start_time', 'act_attach'])->where('id', '=', $id)->find();
     }
 
-    public function getActivityByCat($id, $page, $size)
+    public static function getActivityByCat($id, $page, $size)
     {
         return self::where('cat_id', '=', $id)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id','main_img'])->paginate($size, true, ['page' => $page]);
     }

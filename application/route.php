@@ -78,6 +78,9 @@ Route::get('api/:version/activitydetail/:id', 'xdapi/:version.Activity/getDetail
 Route::get('api/:version/activitybycat/:id', 'xdapi/:version.Activity/getActByCat');
 //获取收藏的活动列表
 Route::get('api/:version/collectlist', 'xdapi/:version.Activity/getCollectList');
+//收藏活动
+Route::get('api/:version/collectact', 'xdapi/:version.Activity/Collect');
+
 
 
 //添加许愿
