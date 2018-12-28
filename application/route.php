@@ -40,10 +40,13 @@ Route::post('api/:version/sendsms', 'xdapi/:version.Sms/registerSms');
 //发送密码重置验证码
 Route::post('api/:version/resetsms', 'xdapi/:version.Sms/resetSms');
 
+
 //注册
 Route::post('api/:version/register', 'xdapi/:version.LogAndReg/register');
 //登录
 Route::post('api/:version/login', 'xdapi/:version.LogAndReg/login');
+//修改密码
+Route::post('api/:version/resetpwd', 'xdapi/:version.LogAndReg/resetPwd');
 
 
 //发布动态
