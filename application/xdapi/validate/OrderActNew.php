@@ -17,7 +17,7 @@ class OrderActNew extends BaseValidate
         'fullname' => 'require',
         'mobile' => 'require|isMobile',
         'adult_number' => 'require|isPositiveInteger',
-        'child_number' => 'require|isPositiveInteger',
+        'child_number' => 'require|isInteger',
         'pay_way' => 'require|in:1,2',
     ];
 
