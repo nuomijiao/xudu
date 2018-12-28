@@ -14,4 +14,7 @@ class SmsCodeTypeEnum
     //注册用
     const ToRegister = 1;
 
+    //找回密码用
+    const ToResetPwd = 2;
+
 }

@@ -17,6 +17,7 @@ use app\xdapi\model\WhUser;
 use app\xdapi\service\UserToken;
 use app\xdapi\validate\LoginTokenGet;
 use app\xdapi\validate\RegisterNew;
+use app\xdapi\validate\ResetPwd;
 
 class LogAndReg extends BaseController
 {
@@ -84,6 +85,47 @@ class LogAndReg extends BaseController
             $token = $log->getToken($user->id);
             return $this->xdreturn(['token'=>$token]);
         }
+    }
+
+    public function resetPwd($mobile = '', $pwd = '', $pwd1 = '', $code = '')
+    {
+        (new ResetPwd())->goCheck();
+        //检查两次密码是否一致
+        if ($pwd !== $pwd1) {
+            throw new UserException([
+                'msg' => '两次密码不一致',
+                'errorCode' => 50008,
+            ]);
+        }
+        //检查手机是否注册
+        $user = WhUser::checkUserByMobile($mobile);
+        if (!$user) {
+            throw new UserException([
+                'msg' => '手机号还未注册',
+                'errorCode' => 50003,
+            ]);
+        }
+
+        //检查验证码是否正确
+        $codeInfo = WhSmscode::checkCode($mobile, $code, SmsCodeTypeEnum::ToResetPwd);
+        if (!$codeInfo || $codeInfo['validate_code'] != $code || $codeInfo['expire_time'] < time() || $codeInfo['using_time'] > 0) {
+            throw new UserException([
+                'msg' => '验证码不匹配或已过期',
+                'errorCode' => 50005,
+            ]);
+        } else {
+            $timenow = time();
+            //修改验证码使用状态
+            WhSmscode::changeStatus($mobile, $code, SmsCodeTypeEnum::ToResetPwd, $timenow);
+            //修改用户密码
+            WhUser::update(['id' => $user->id, 'user_pwd' => md5($pwd)]);
+
+            $reg = new UserToken();
+            $token = $reg->getToken($user->id);
+            return $this->xdreturn(['token'=>$token]);
+
+        }
+
     }
 
     private static function randUserName()

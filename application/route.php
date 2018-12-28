@@ -35,8 +35,11 @@ Route::get('api/:version/category', 'xdapi/:version.Category/getCategory');
 Route::get('api/:version/banner', 'xdapi/:version.Banner/getBannerList');
 
 
-//发送验证码
+//发送注册验证码
 Route::post('api/:version/sendsms', 'xdapi/:version.Sms/registerSms');
+//发送密码重置验证码
+Route::post('api/:version/resetsms', 'xdapi/:version.Sms/resetSms');
+
 //注册
 Route::post('api/:version/register', 'xdapi/:version.LogAndReg/register');
 //登录
