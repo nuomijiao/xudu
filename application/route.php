@@ -63,6 +63,8 @@ Route::get('api/:version/momentdetail/:id', 'xdapi/:version.Moment/getCommentDet
 Route::post('api/:version/commentmoment', 'xdapi/:version.Moment/comment');
 //回复评论
 Route::post('api/:version/replycomment', 'xdapi/:version.Moment/replyComment');
+//我的动态
+Route::get('api/:version/mycomment', 'xdapi/:version.Moment/myComment');
 
 
 //申请添加好友
@@ -109,6 +111,7 @@ Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
 //获取会员信息
 Route::get('api/:version/getuserinfo', 'xdapi/:version.User/getUserInfo');
 //修改会员头像
+Route::get('api/:version/modifyheadimg', 'xdapi/:version.User/modifyHeadImg');
 
 
 //获取城市地址拼音排序列表

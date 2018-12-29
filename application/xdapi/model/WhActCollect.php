@@ -29,4 +29,9 @@ class WhActCollect extends BaseModel
             }
         ])->where('user_id', '=', $uid)->where('delete_time', '<=', 0)->paginate($size, true, ['page' => $page]);
     }
+
+    public static function getCollectCount($uid)
+    {
+        return self::where('user_id', '=', $uid)->where('delete_time','<=', 0)->count();
+    }
 }

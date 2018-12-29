@@ -37,4 +37,9 @@ class WhFriendsApply extends BaseModel
         return $list;
     }
 
+    public static function getApplyCount($uid)
+    {
+        return self::where('friend_id', '=', $uid)->where('status', '=', 0)->count();
+    }
+
 }

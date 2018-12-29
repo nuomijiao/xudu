@@ -99,6 +99,25 @@ class Moment extends BaseController
         ]);
     }
 
+    public function myComment($page = 1, $size = 10)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        $pagingMoments = WhMoments::getMyMoments($uid, $page, $size);
+        if ($pagingMoments->isEmpty()) {
+            throw new MomentsException([
+                'msg' => '我的动态已见底线',
+                'errorCode' => 70007,
+            ]);
+        }
+        $data = $pagingMoments->toArray();
+        return json([
+            'error_code' => 'Success',
+            'data' => $data,
+            'current_page' => $pagingMoments->getCurrentPage(),
+        ]);
+    }
+
     //动态点赞
     public function clickZan($id = '')
     {
