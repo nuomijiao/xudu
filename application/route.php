@@ -114,6 +114,8 @@ Route::get('api/:version/getuserinfo', 'xdapi/:version.User/getUserInfo');
 Route::post('api/:version/modifyheadimg', 'xdapi/:version.User/modifyHeadImg');
 //修改用户信息
 Route::post('api/:version/saveinfo', 'xdapi/:version.User/saveInfo');
+//反馈意见
+Route::post('api/:version/feedback', 'xdapi/:version.User/feedback');
 
 
 //获取城市地址拼音排序列表

@@ -14,10 +14,12 @@ use app\lib\exception\SuccessMessage;
 use app\lib\exception\UserException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
+use app\xdapi\model\WhFeedback;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\model\WhUser;
 use app\xdapi\service\Picture;
 use app\xdapi\service\Token;
+use app\xdapi\validate\FeedbackNew;
 use app\xdapi\validate\UserInfo;
 
 class User extends BaseController
@@ -73,6 +75,21 @@ class User extends BaseController
         WhUser::where('id', '=', $uid)->update($dataArray);
         throw new SuccessMessage([
             'msg' => '修改成功'
+        ]);
+    }
+
+
+    public function feedback()
+    {
+        $request = (new FeedbackNew())->goCheck();
+        $uid = Token::getCurrentUid();
+        $content = $request->param('content');
+        WhFeedback::create([
+            'user_id' => $uid,
+            'content' => $content,
+        ]);
+        throw new SuccessMessage([
+           'msg' => '意见反馈成功',
         ]);
     }
 }
