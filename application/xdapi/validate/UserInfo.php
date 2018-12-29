@@ -16,13 +16,12 @@ class UserInfo extends BaseValidate
         'sex' => 'require|in:1,2,3',
         'province_id' => 'require|isPositiveInteger',
         'city_id' => 'require|isPositiveInteger',
-        'sign' => 'chsDash',
+        'sign' => '',
     ];
 
     protected $message = [
         'user_name' => '名字只能是汉字、字母、数字和下划线_及破折号-',
         'province_id' => '省id必须为正整数',
         'city_id' => '市id必须为正整数',
-        'sign' => '签名只能是汉字、字母、数字和下划线_及破折号-',
     ];
 }
