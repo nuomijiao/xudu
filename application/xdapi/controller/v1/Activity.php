@@ -67,7 +67,8 @@ class Activity extends BaseController
             $isCollect = WhActCollect::update(['id' => $collect->id, 'delete_time' => 0]);
         } elseif ($collect && $collect->delete_time = 0) {
             //取消收藏, delete_time = time();
-            $isCollect = WhActCollect::update(['id' => $collect->id, 'delete_time' => time()]);
+            $time = time();
+            $isCollect = WhActCollect::update(['id' => $collect->id, 'delete_time' => $time]);
             print_r($isCollect);die;
         } elseif (!$collect) {
             //收藏 delete_time = 0
