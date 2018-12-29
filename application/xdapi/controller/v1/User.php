@@ -9,6 +9,7 @@
 namespace app\xdapi\controller\v1;
 
 
+use app\lib\exception\ParameterException;
 use app\lib\exception\UserException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
@@ -40,8 +41,19 @@ class User extends BaseController
     public function modifyHeadImg()
     {
         $uid = Token::getCurrentUid();
-        $request = (new PictureNew())->goCheck();
-        $head_img = $request->file('head_img');
+        $head_img = $this->request->file('head_img');
+        if (!empty($head_img)) {
+            if (is_object($head_img)) {
+                throw new ParameterException([
+                    'msg' => '上传图片参数错误',
+                ]);
+            }
+            if(!Picture::checkImg($head_img)) {
+                throw new ParameterException([
+                    'msg' => '上传图片参数错误',
+                ]);
+            }
+        }
         $data = Picture::uploadImg($head_img, 'head_img');
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
         $user = WhUser::where('id', '=', $uid)->update($data);
