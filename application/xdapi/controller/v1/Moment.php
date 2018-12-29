@@ -100,7 +100,7 @@ class Moment extends BaseController
         ]);
     }
 
-    public function myComment($page = 1, $size = 10)
+    public function myMomment($page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();

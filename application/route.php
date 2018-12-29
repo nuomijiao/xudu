@@ -64,7 +64,7 @@ Route::post('api/:version/commentmoment', 'xdapi/:version.Moment/comment');
 //回复评论
 Route::post('api/:version/replycomment', 'xdapi/:version.Moment/replyComment');
 //我的动态
-Route::get('api/:version/mycomment', 'xdapi/:version.Moment/myComment');
+Route::get('api/:version/mymomment', 'xdapi/:version.Moment/myMomment');
 //获取作者信息
 Route::get('api/:version/ownerinfo/:id', 'xdapi/:version.Moment/ownerInfo');
 
@@ -126,4 +126,10 @@ Route::get('api/:version/memberinfo', 'xdapi/:version.User/memberInfo');
 Route::get('api/:version/getcitylist', 'xdapi/:version.Character/getCityList');
 ///获取城市的id
 Route::post('api/:version/getcityid', 'xdapi/:version.Character/GetCityId');
+//获取省列表
+Route::get('api/:version/getprovince', 'xdapi/:version.Character/getProvince');
+//获取联动市
+Route::get('api/:version/getcitybyprovince', 'xdapi/:version.Character/getCityByProvince');
+//获取联动区
+Route::get('api/:version/getdistrictbycity', 'xdapi/:version.Character/getDistrictByCity');
 
