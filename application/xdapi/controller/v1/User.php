@@ -59,7 +59,7 @@ class User extends BaseController
 
         $data = Picture::uploadImg($head_img, 'head_img');
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
-        $user = WhUser::where('id', '=', $uid)->update($data);
+        $user = WhUser::where('id', '=', $uid)->update(['head_img', $data['head_img']]);
         if ($user) {
             if ($origion_img != '/assets/img/user_head.png') {
                 unlink(ROOT_PATH.'public'.DS.$origion_img);
