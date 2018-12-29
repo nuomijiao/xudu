@@ -99,6 +99,6 @@ class User extends BaseController
         $uid = Token::getCurrentUid();
         $memberInfo = WhMemberGrade::get(1);
         $power = unserialize($memberInfo->power);
-        return $this->xdreturn(json($power));
+        return $this->xdreturn($power);
     }
 }

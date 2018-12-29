@@ -117,7 +117,7 @@ Route::post('api/:version/saveinfo', 'xdapi/:version.User/saveInfo');
 //反馈意见
 Route::post('api/:version/feedback', 'xdapi/:version.User/feedback');
 //会员信息
-Route::post('api/:version/memberinfo', 'xdapi/:version.User/memberInfo');
+Route::get('api/:version/memberinfo', 'xdapi/:version.User/memberInfo');
 
 
 //获取城市地址拼音排序列表
