@@ -169,7 +169,7 @@ class Moment extends Picture
             $ids = $value['id'].",";
         }
         $ids = rtrim($ids, ',');
-        $imgs_url = WhMomentImage::field(['url'])->whereIn('moment_id', $ids)->limit(3)->order('id', 'desc')->select()->toArray();
+        $imgs_url = WhMomentImage::field(['url', 'from'])->whereIn('moment_id', $ids)->limit(3)->order('id', 'desc')->select()->toArray();
         $imgs = '';
         foreach($imgs_url as $k => $v) {
             $imgs = $v['url'].",";
