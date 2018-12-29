@@ -14,6 +14,7 @@ use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMoments;
+use app\xdapi\model\WhUser;
 use app\xdapi\service\Moment as MomentService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\CommentNew;
@@ -171,4 +172,26 @@ class Moment extends BaseController
         $replycomment = MomentService::addComment($uid, $comment->moment_id, $content, $comment->user_id, $id);
         return $this->xdreturn($replycomment);
     }
+
+    public function ownerInfo($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $uid = Token::getCurrentUid();
+        if ($uid == $id) {
+            throw new MomentsException([
+                'msg' => '自己的动态',
+                'errorCode' => 70008,
+            ]);
+        }
+        $userInfo = WhUser::get($id);
+        $is_friends = WhFriends::checkIsFriends($uid, $id);
+        if ($is_friends) {
+            $userInfo->is_guanzhu = 1;
+        } else {
+            $userInfo->is_guanzhu = 0;
+        }
+        $userInfo->pics = MomentService::getImgs($id);
+        return $this->xdreturn($userInfo);
+    }
+
 }

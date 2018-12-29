@@ -10,6 +10,7 @@ namespace app\xdapi\service;
 
 
 use app\lib\exception\MomentsException;
+use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMomentImage;
 use app\xdapi\model\WhMoments;
@@ -159,4 +160,24 @@ class Moment extends Picture
         }
         return array_reverse($comm);
     }
+
+    public static function getImgs($id)
+    {
+        $moments_ids = WhMoments::field(['id'])->order('create_time', 'desc')->select($id)->toArray();
+        $ids = '';
+        foreach ($moments_ids as $key => $value) {
+            $ids = $value['id'].",";
+        }
+        $ids = rtrim($ids, ',');
+        $imgs_url = WhMomentImage::field(['url'])->whereIn('moment_id', $ids)->limit(3)->order('create_time', 'desc')->select()->toArray();
+        $imgs = '';
+        foreach($imgs_url as $k => $v) {
+            $imgs = $v['url'].",";
+        }
+        $imgs = rtrim($imgs, ',');
+        return $imgs;
+    }
+
+
+
 }

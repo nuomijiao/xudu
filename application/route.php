@@ -65,6 +65,8 @@ Route::post('api/:version/commentmoment', 'xdapi/:version.Moment/comment');
 Route::post('api/:version/replycomment', 'xdapi/:version.Moment/replyComment');
 //我的动态
 Route::get('api/:version/mycomment', 'xdapi/:version.Moment/myComment');
+//获取作者信息
+Route::get('api/:version/ownerinfo/:id', 'xdapi/:version.Moment/ownerInfo');
 
 
 //申请添加好友
