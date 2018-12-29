@@ -42,6 +42,7 @@ class User extends BaseController
     {
         $uid = Token::getCurrentUid();
         $head_img = $this->request->file('head_img');
+        print_r($head_img);die;
         if (!empty($head_img)) {
             if (is_object($head_img)) {
                 throw new ParameterException([
