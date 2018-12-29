@@ -44,7 +44,7 @@ class User extends BaseController
         $head_img = $this->request->file('head_img');
 
         if (!empty($head_img)) {
-
+            print_r($head_img);die;
             if(!Picture::checkImg($head_img)) {
                 throw new ParameterException([
                     'msg' => '上传图片参数错误',

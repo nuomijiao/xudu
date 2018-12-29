@@ -14,6 +14,7 @@ class Picture
     public static function checkImg($img)
     {
         $type = $img->getMime();
+        return $type;
         if (in_array($type, ['image/jpeg','image/png','image/gif'])) {
             return true;
         } else {
