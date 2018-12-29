@@ -10,6 +10,7 @@ namespace app\xdapi\controller\v1;
 
 
 use app\lib\exception\ParameterException;
+use app\lib\exception\SuccessMessage;
 use app\lib\exception\UserException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
@@ -69,7 +70,9 @@ class User extends BaseController
         $uid = Token::getCurrentUid();
         $dataArray = $validate->getDataByRule($request->post());
         $dataArray['sign'] = $request->param('sign');
-        $user_info = WhUser::where('id', '=', $uid)->update($dataArray);
-        return $this->xdreturn($user_info);
+        WhUser::where('id', '=', $uid)->update($dataArray);
+        throw new SuccessMessage([
+            'msg' => '修改成功'
+        ]);
     }
 }
