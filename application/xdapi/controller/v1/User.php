@@ -16,6 +16,7 @@ use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
 use app\xdapi\model\WhFeedback;
 use app\xdapi\model\WhFriendsApply;
+use app\xdapi\model\WhMemberGrade;
 use app\xdapi\model\WhUser;
 use app\xdapi\service\Picture;
 use app\xdapi\service\Token;
@@ -91,5 +92,13 @@ class User extends BaseController
         throw new SuccessMessage([
            'msg' => '意见反馈成功',
         ]);
+    }
+
+    public function memberInfo()
+    {
+        $uid = Token::getCurrentUid();
+        $memberInfo = WhMemberGrade::get(1);
+        $power = unserialize($memberInfo->power);
+        return $this->xdreturn(json($power));
     }
 }
