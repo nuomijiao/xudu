@@ -111,7 +111,7 @@ Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
 //获取会员信息
 Route::get('api/:version/getuserinfo', 'xdapi/:version.User/getUserInfo');
 //修改会员头像
-Route::get('api/:version/modifyheadimg', 'xdapi/:version.User/modifyHeadImg');
+Route::post('api/:version/modifyheadimg', 'xdapi/:version.User/modifyHeadImg');
 
 
 //获取城市地址拼音排序列表
