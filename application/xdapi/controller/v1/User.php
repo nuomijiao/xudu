@@ -30,4 +30,9 @@ class User extends BaseController
         }
         return $this->xdreturn($userInfo);
     }
+
+    public function modifyHeadImg()
+    {
+
+    }
 }

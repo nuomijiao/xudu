@@ -87,11 +87,11 @@ class LogAndReg extends BaseController
         }
     }
 
-    public function resetPwd($mobile = '', $pwd = '', $pwd1 = '', $code = '')
+    public function resetPwd($mobile = '', $pwd = '', $pwd2 = '', $code = '')
     {
         (new ResetPwd())->goCheck();
         //检查两次密码是否一致
-        if ($pwd !== $pwd1) {
+        if ($pwd !== $pwd2) {
             throw new UserException([
                 'msg' => '两次密码不一致',
                 'errorCode' => 50008,
