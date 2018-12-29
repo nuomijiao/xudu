@@ -50,11 +50,12 @@ class User extends BaseController
                 ]);
             }
             print_r($head_img);
-            if(!Picture::checkImg($head_img)) {
-                throw new ParameterException([
-                    'msg' => '上传图片参数错误',
-                ]);
-            }
+            print_r(Picture::checkImg($head_img));
+//            if(!Picture::checkImg($head_img)) {
+//                throw new ParameterException([
+//                    'msg' => '上传图片参数错误',
+//                ]);
+//            }
         }
         print_r($head_img);die;
         $data = Picture::uploadImg($head_img, 'head_img');
