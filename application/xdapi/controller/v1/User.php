@@ -68,6 +68,7 @@ class User extends BaseController
         $request = $validate->goCheck();
         $uid = Token::getCurrentUid();
         $dataArray = $validate->getDataByRule($request->post());
+        $dataArray['sign'] = $request->param('sign');
         $user_info = WhUser::where('id', '=', $uid)->update($dataArray);
         return $this->xdreturn($user_info);
     }

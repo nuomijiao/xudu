@@ -16,7 +16,6 @@ class UserInfo extends BaseValidate
         'sex' => 'require|in:1,2,3',
         'province_id' => 'require|isPositiveInteger',
         'city_id' => 'require|isPositiveInteger',
-        'sign' => '',
     ];
 
     protected $message = [
