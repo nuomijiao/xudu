@@ -17,7 +17,7 @@ use app\xdapi\model\WhFriendsApply;
 use app\xdapi\model\WhUser;
 use app\xdapi\service\Picture;
 use app\xdapi\service\Token;
-use app\xdapi\validate\PictureNew;
+use app\xdapi\validate\UserInfo;
 
 class User extends BaseController
 {
@@ -60,5 +60,15 @@ class User extends BaseController
             }
             return $this->xdreturn(['head_img' => $user->head_img]);
         }
+    }
+
+    public function saveInfo()
+    {
+        $validate = new UserInfo();
+        $request = $validate->goCheck();
+        $uid = Token::getCurrentUid();
+        $dataArray = $validate->getDataByRule($request->post());
+        $user_info = WhUser::where('id', '=', $uid)->update($dataArray);
+        return $this->xdreturn($user_info);
     }
 }

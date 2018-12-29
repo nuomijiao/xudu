@@ -108,10 +108,12 @@ Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');
 Route::get('api/:version/surememorder/:id', 'xdapi/:version.Order/sureMemOrder');
 Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
 
-//获取会员信息
+//获取用户信息
 Route::get('api/:version/getuserinfo', 'xdapi/:version.User/getUserInfo');
-//修改会员头像
+//修改用户头像
 Route::post('api/:version/modifyheadimg', 'xdapi/:version.User/modifyHeadImg');
+//修改用户信息
+Route::post('api/:version/saveinfo', 'xdapi/:version.User/saveInfo');
 
 
 //获取城市地址拼音排序列表
