@@ -73,7 +73,7 @@ class Activity extends BaseController
             $isCollect = WhActCollect::create([
                 'act_id' => $id,
                 'user_id' => $uid,
-                'delete_time' => time()
+                'delete_time' => 0
             ]);
         }
         return $this->xdreturn($isCollect);
