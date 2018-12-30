@@ -27,7 +27,7 @@ class Moment extends Picture
         //更新到正式数据表
         //删除临时图片数据表数据
         //移动图片到正式文件夹
-        $moment_imgs = WhTempImgs::whereIn($ids)->select()->toArray();
+        $moment_imgs = WhTempImgs::whereIn('id',$ids)->select()->toArray();
         $new_moment_imgs = [];
         $new_ids = '';
         Db::startTrans();
