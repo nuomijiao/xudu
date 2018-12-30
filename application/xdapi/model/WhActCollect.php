@@ -21,7 +21,7 @@ class WhActCollect extends BaseModel
         return self::where(['act_id' => $id, 'user_id' => $uid])->find();
     }
 
-    public function getCollectActivity($uid, $page, $size)
+    public static function getCollectActivity($uid, $page, $size)
     {
         return self::with([
             'collect' => function($query) {
