@@ -47,6 +47,7 @@ class User extends BaseController
         $uid = Token::getCurrentUid();
         $head_img = $this->request->file('head_img');
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
+        return $origion_img;die;
         $data = Picture::uploadImg($head_img, 'head_img');
         $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['head_img']]);
         if ($user) {
