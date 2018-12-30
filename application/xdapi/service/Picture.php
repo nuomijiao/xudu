@@ -9,6 +9,8 @@
 namespace app\xdapi\service;
 
 
+use think\Exception;
+
 class Picture
 {
 
