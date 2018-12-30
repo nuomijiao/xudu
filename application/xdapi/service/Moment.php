@@ -59,7 +59,7 @@ class Moment extends Picture
                         rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['img_name']);
                     }
                 }
-                array_push($new_imgs, DS."images".DS.$value['img_url']);
+                array_push($new_imgs, DS."images".DS.$value['img_name']);
             }
             $data = [
                 'title' => $title,
