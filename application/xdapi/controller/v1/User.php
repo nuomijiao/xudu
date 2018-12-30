@@ -50,9 +50,9 @@ class User extends BaseController
 
         $data = Picture::uploadImg($head_img, 'head_img');
 
-        $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['head_img']]);
+        $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['url']]);
         if ($user) {
-            if ($origion_img != '/assets/img/user_head.png' && $origion_img != $data['head_img']) {
+            if ($origion_img != '/assets/img/user_head.png' && $origion_img != $data['url']) {
                 unlink(ROOT_PATH.'public'.DS.$origion_img);
             }
             return $this->xdreturn(['head_img' => $user->head_img]);

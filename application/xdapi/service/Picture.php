@@ -21,7 +21,6 @@ class Picture
             $dataArray = [
                 'url' => DS.$directory.DS.$info->getSaveName(),
                 'from' => 1,
-                'head_img' => DS.$directory.DS.$info->getSaveName(),
             ];
             return $dataArray;
         } else {

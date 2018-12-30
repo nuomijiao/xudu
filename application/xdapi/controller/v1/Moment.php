@@ -14,8 +14,10 @@ use app\lib\exception\ParameterException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMoments;
+use app\xdapi\model\WhTempImgs;
 use app\xdapi\model\WhUser;
 use app\xdapi\service\Moment as MomentService;
+use app\xdapi\service\Picture;
 use app\xdapi\service\Token;
 use app\xdapi\validate\CommentNew;
 use app\xdapi\validate\IDMustBePositiveInt;
@@ -30,14 +32,13 @@ class Moment extends BaseController
     {
         $uid = Token::getCurrentUid();
         $moment_img = $this->request->file('moment_img');
-        if (!empty($moment_img)) {
-            if(!Picture::checkImg($moment_img)) {
-                throw new ParameterException([
-                    'msg' => '上传图片参数错误',
-                ]);
-            }
-        }
-
+        $data = Picture::uploadImg($moment_img, 'moment_img');
+        //存到临时图片文件夹
+        $img = WhTempImgs::create([
+            'img_url' => $data['url'],
+            'user_id' => $uid,
+        ]);
+        return $this->xdreturn($img->id);
     }
 
 
