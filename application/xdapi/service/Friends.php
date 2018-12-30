@@ -89,9 +89,9 @@ class Friends
                 array_push($toTalk, $value);
             }
         }
-        $talkInfo->mytalk = $myTalk;
-        $talkInfo->toTalk = $toTalk;
-        return $talkInfo;
+        $dataArray['mytalk'] = $myTalk;
+        $dataArray['toTalk'] = $toTalk;
+        return $dataArray;
     }
 
 }
