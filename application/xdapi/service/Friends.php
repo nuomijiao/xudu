@@ -77,14 +77,20 @@ class Friends
         }
         //发送消息
         WhChat::create($data);
-        //返回两天之内的消息
+        //返回7天之内的消息
         $talkInfo = WhChat::getTalkInDays(time()- config('setting.day') * 24 * 3600, $myId, $toId);
         $newTalkInfo = $talkInfo->toArray();
         $myTalk = [];
         $toTalk = [];
         foreach ($newTalkInfo as $key => $value) {
-
+            if ($value['from_id'] == $myId) {
+                array_push($myTalk, $value);
+            } else {
+                array_push($toTalk, $value);
+            }
         }
+        $talkInfo->mytalk = $myTalk;
+        $talkInfo->toTalk = $toTalk;
         return $talkInfo;
     }
 
