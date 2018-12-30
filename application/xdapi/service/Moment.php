@@ -10,26 +10,26 @@ namespace app\xdapi\service;
 
 
 use app\lib\exception\MomentsException;
-use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhMomentImage;
 use app\xdapi\model\WhMoments;
 use app\xdapi\model\WhMomentsDis;
 use app\xdapi\model\WhMomentsZan;
+use app\xdapi\model\WhTempImgs;
 use think\Db;
 use think\Exception;
 
 class Moment extends Picture
 {
 
-    public static function releaseMoment($uid, $img, $title, $addr) {
-        $imgarr = [];
-        $imgurl = [];
-        foreach ($img as $key => $value) {
-            $data = self::uploadImg($value, 'images');
-            array_push($imgurl, config('setting.domain').DS."images".DS.$data['url']);
-            array_push($imgarr, $data);
-        }
+    public static function releaseMoment($uid, $img, $title, $addr, $ids) {
+        //获取临时图片文件夹相关图片
+        //更新到正式数据表
+        //删除临时图片数据表数据
+        //移动图片到正式文件夹
+        $moment_imgs = WhTempImgs::whereIn($ids)->select()->toArray();
+        $new_moment_imgs = [];
+        $new_ids = '';
         Db::startTrans();
         try {
             $moment = WhMoments::create([
@@ -38,21 +38,34 @@ class Moment extends Picture
                 'user_id' => $uid,
             ]);
             $moment_id = $moment->id;
-            foreach ($imgarr as $k => &$v) {
-                $v['moment_id'] = $moment_id;
-                WhMomentImage::create($v);
+            foreach ($moment_imgs as $key => $value) {
+                if ($value['user_id'] == $uid) {
+                    array_push($new_moment_imgs, $value);
+                    $new_ids .= $value['id'].",";
+                    $data = [
+                        'moment_id' => $moment_id,
+                        'url' => $value['img_url'],
+                    ];
+                    WhMomentImage::create($data);
+                }
             }
+            $new_ids = rtrim($new_ids, ','). ROOT_PATH;
+            WhTempImgs::destroy($new_ids);
             Db::commit();
+            foreach ($new_moment_imgs as $key => $value) {
+                rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['filename']);
+            }
             $data = [
                 'title' => $title,
                 'location' => $addr,
-                'img' => $imgurl,
+                'img' => $new_moment_imgs,
             ];
             return $data;
         } catch(Exception $ex) {
             Db::rollback();
             throw $ex;
         }
+
     }
 
     public static function dealZan($id, $uid)
@@ -166,13 +179,13 @@ class Moment extends Picture
         $moments_ids = WhMoments::field(['id'])->order('create_time', 'desc')->select($id)->toArray();
         $ids = '';
         foreach ($moments_ids as $key => $value) {
-            $ids = $value['id'].",";
+            $ids .= $value['id'].",";
         }
         $ids = rtrim($ids, ',');
         $imgs_url = WhMomentImage::field(['url', 'from'])->whereIn('moment_id', $ids)->limit(3)->order('id', 'desc')->select()->toArray();
         $imgs = '';
         foreach($imgs_url as $k => $v) {
-            $imgs = $v['url'].",";
+            $imgs .= $v['url'].",";
         }
         $imgs = rtrim($imgs, ',');
         return $imgs;

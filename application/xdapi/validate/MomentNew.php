@@ -13,12 +13,14 @@ class MomentNew extends BaseValidate
 {
     protected $rule = [
         'title' => 'require',
-        'ids' => 'require|isIds'
+        'ids' => 'require|isIds',
+        'imgs' => 'require|array'
     ];
 
     protected $message = [
         'title' => '动态标题不能为空',
         'ids' => 'ids格式有误',
+        'imgs' => 'imgs格式错误',
     ];
 
     public function isIds($value)
