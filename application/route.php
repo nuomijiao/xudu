@@ -48,7 +48,8 @@ Route::post('api/:version/login', 'xdapi/:version.LogAndReg/login');
 //修改密码
 Route::post('api/:version/resetpwd', 'xdapi/:version.LogAndReg/resetPwd');
 
-
+//上传动态图片
+Route::post('api/:version/addmomentimg', 'xdapi/:version.Moment/addMomentImg');
 //发布动态
 Route::post('api/:version/addmoment', 'xdapi/:version.Moment/addMoment');
 //获取热门动态
