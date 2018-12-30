@@ -113,10 +113,17 @@ Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');
 Route::get('api/:version/getactorderdetail', 'xdapi/:version.Order/getActOrderDetail');
 //申请取消订单，判断该活动是否已过。
 Route::post('api/:version/cancelactorder', 'xdapi/:version.Order/cancelActOrder');
+//活动订单回调
+Route::post('api/:version/actordernotify', 'xdapi/:version.Order/notifyActOrder');
 
 //确定会员订单
 Route::get('api/:version/surememorder/:id', 'xdapi/:version.Order/sureMemOrder');
+//生成会员订单
 Route::post('api/:version/makememorder', 'xdapi/:version.Order/makeMemOrder');
+//会员订单回调
+Route::post('api/:version/memordernotify', 'xdapi/:version.Order/notifyMemOrder');
+
+
 
 //获取用户信息
 Route::get('api/:version/getuserinfo', 'xdapi/:version.User/getUserInfo');

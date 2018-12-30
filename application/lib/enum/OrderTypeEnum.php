@@ -11,7 +11,7 @@ namespace app\lib\enum;
 
 class OrderTypeEnum
 {
-    //活动类型
+    //活动订单
     const Activity = 1;
 
     //会员订单

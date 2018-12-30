@@ -18,6 +18,7 @@ use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhMemberGrade;
 use app\xdapi\model\WhMemOrder;
+use app\xdapi\model\WhUser;
 
 class Order
 {
@@ -74,9 +75,21 @@ class Order
 
     }
 
-    public static function checkOperate($id)
+    public static function checkOperate($id, $type = OrderTypeEnum::Activity, $ordersn)
     {
-        $order = WhActOrder::get($id);
+        if (!empty($id)) {
+            if (OrderTypeEnum::Activity == $type) {
+                $order = WhActOrder::get($id);
+            } elseif (OrderTypeEnum::Member) {
+                $order = WhMemOrder::get($id);
+            }
+        } else {
+            if (OrderTypeEnum::Activity == $type) {
+                $order = WhActOrder::where('order_sn', '=', $ordersn)->find();
+            } elseif (OrderTypeEnum::Member) {
+                $order = WhMemOrder::where('order_sn', '=', $ordersn)->find();
+            }
+        }
         if (!$order) {
             throw new OrderException();
         }
@@ -101,6 +114,21 @@ class Order
                 'd') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf(
                 '%02d', rand(0, 99));
         return $orderSn;
+    }
+
+    public static function dealUserMemTime($uid)
+    {
+        $userInfo = WhUser::get($uid);
+        if ($userInfo->member_end_time <= time()) {
+            $member_end_time = strtotime("+1year");
+        } elseif ($userInfo->member_end_time > time()) {
+            $member_end_time = strtotime($userInfo->member_end_time."+1year");
+        }
+        WhUser::update([
+            'id' => $uid,
+            'member_end_time' => $member_end_time,
+        ]);
+        return true;
     }
 
 

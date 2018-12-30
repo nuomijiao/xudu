@@ -87,7 +87,6 @@ class Friends
                 $value['mys']  = 0;
             }
         }
-
         return $newTalkInfo;
     }
 

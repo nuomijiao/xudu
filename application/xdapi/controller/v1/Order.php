@@ -10,6 +10,7 @@ namespace app\xdapi\controller\v1;
 
 
 use app\lib\enum\OrderStatusEnum;
+use app\lib\enum\OrderTypeEnum;
 use app\lib\exception\ActivityException;
 use app\lib\exception\OrderException;
 use app\lib\exception\SuccessMessage;
@@ -17,11 +18,16 @@ use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhMemberGrade;
+use app\xdapi\model\WhMemOrder;
+use app\xdapi\model\WhUser;
 use app\xdapi\service\Token;
 use app\xdapi\validate\IDMustBePositiveInt;
+use app\xdapi\validate\NotifyOrder;
 use app\xdapi\validate\OrderActNew;
 use app\xdapi\service\Order as OrderService;
 use app\xdapi\validate\OrderMemNew;
+use think\Db;
+use think\Exception;
 
 class Order extends BaseController
 {
@@ -106,6 +112,39 @@ class Order extends BaseController
         $dataArray = $validate->getDataByRule($request->post());
         $order = OrderService::createMemOrder($dataArray, $uid);
         return $this->xdreturn($order);
+    }
+
+    public function notifyActOrder($ordersn = '')
+    {
+        (new NotifyOrder())->goCheck();
+        $order = OrderService::checkOperate('', OrderTypeEnum::Member, $ordersn);
+        WhActOrder::update([
+            'id' => $order->id,
+            'status' => OrderStatusEnum::Paid,
+        ]);
+    }
+
+    public function notifyMemOrder($ordersn = '')
+    {
+        (new NotifyOrder())->goCheck();
+        $order = OrderService::checkOperate('', OrderTypeEnum::Member, $ordersn);
+        //处理订单信息
+        Db::startTrans();
+        try {
+            //更新订单状态
+            WhMemOrder::update([
+                'id' => $order->id,
+                'status' => OrderStatusEnum::Paid,
+            ]);
+            //修改会员时间
+            OrderService::dealUserMemTime($order->user_id);
+            Db::commit();
+
+        } catch(Exception $ex) {
+            Db::rollback();
+            throw $ex;
+        }
+
     }
 
 
