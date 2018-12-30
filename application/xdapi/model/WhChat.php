@@ -20,6 +20,6 @@ class WhChat extends BaseModel
 
     public static function getTalkInDays($time, $myId, $toId)
     {
-        return self::where('create_time', '>=', $time)->where(['from_id' => $myId, 'to_id' => $toId])->whereOr(['to_id' => $myId, 'from_id' => $toId])->order('id', 'desc')->fetchSql(true)->select();
+        return self::where("`create_time` >= ".$time." AND ((`from_id` = "."$myId"." AND `to_id` =".$toId.") OR (`to_id` = ".$myId." AND `from_id` = ".$toId."))")->where(['from_id' => $myId, 'to_id' => $toId])->whereOr(['to_id' => $myId, 'from_id' => $toId])->order('id', 'desc')->fetchSql(true)->select();
     }
 }
