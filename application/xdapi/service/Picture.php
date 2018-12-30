@@ -26,7 +26,7 @@ class Picture
             return $dataArray;
         } else {
             throw new ParameterException([
-                'msg' => $img->getError,
+                'msg' => $img->getError(),
             ]);
         }
     }
