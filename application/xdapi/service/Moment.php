@@ -45,7 +45,7 @@ class Moment extends Picture
                     $new_ids .= $value['id'].",";
                     $data = [
                         'moment_id' => $moment_id,
-                        'url' => $value['img_url'],
+                        'url' => DS.'images'.DS.$value['img_name'],
                     ];
                     WhMomentImage::create($data);
                 }
