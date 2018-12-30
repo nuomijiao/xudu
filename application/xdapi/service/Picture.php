@@ -9,7 +9,7 @@
 namespace app\xdapi\service;
 
 
-use think\Exception;
+use app\lib\exception\ParameterException;
 
 class Picture
 {
@@ -25,7 +25,9 @@ class Picture
             ];
             return $dataArray;
         } else {
-            throw new Exception($info->getError());
+            throw new ParameterException([
+                'msg' => '上传图片参数有错误',
+            ]);
         }
     }
 }

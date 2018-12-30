@@ -46,11 +46,11 @@ class User extends BaseController
     {
         $uid = Token::getCurrentUid();
         $head_img = $this->request->file('head_img');
-        $data = Picture::uploadImg($head_img, 'head_img');
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
+        $data = Picture::uploadImg($head_img, 'head_img');
         $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['head_img']]);
         if ($user) {
-            if ($origion_img != '/assets/img/user_head.png') {
+            if ($origion_img != '/assets/img/user_head.png' && $origion_img != $data['head_img']) {
                 unlink(ROOT_PATH.'public'.DS.$origion_img);
             }
             return $this->xdreturn(['head_img' => $user->head_img]);
