@@ -49,7 +49,7 @@ class User extends BaseController
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
 
         $data = Picture::uploadImg($head_img, 'head_img');
-        return $data['head_img'];die;
+
         $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['head_img']]);
         if ($user) {
             if ($origion_img != '/assets/img/user_head.png' && $origion_img != $data['head_img']) {
