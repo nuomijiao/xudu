@@ -12,10 +12,10 @@ namespace app\xdapi\validate;
 class NotifyOrder extends BaseValidate
 {
     protected $rule = [
-        'ordersn' => 'require',
+        'ordersn' => 'require|alphaNum',
     ];
 
     protected $message = [
-        'ordersn' => '订单号不能为空'
+        'ordersn' => '订单号只能为数字和字母'
     ];
 }
