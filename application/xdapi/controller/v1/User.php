@@ -103,6 +103,9 @@ class User extends BaseController
         $uid = Token::getCurrentUid();
         $trip = WhActOrder::getPayOrder($uid, $page, $size);
         $newTrip = $trip->toArray();
+        echo "<pre>";
+        print_r($newTrip);
+        echo "</pre>";die;
         foreach ($newTrip as $key => &$value) {
             $value['act_snap'] = json_decode($value['act_snap'], true);
         }

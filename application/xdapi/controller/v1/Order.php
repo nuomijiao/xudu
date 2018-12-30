@@ -122,6 +122,7 @@ class Order extends BaseController
             'id' => $order->id,
             'status' => OrderStatusEnum::Paid,
         ]);
+        throw new SuccessMessage();
     }
 
     public function notifyMemOrder($ordersn = '')
@@ -144,6 +145,7 @@ class Order extends BaseController
             Db::rollback();
             throw $ex;
         }
+        throw new SuccessMessage();
 
     }
 
