@@ -117,7 +117,7 @@ class Order extends BaseController
     public function notifyActOrder($ordersn = '')
     {
         (new NotifyOrder())->goCheck();
-        $order = OrderService::checkOperate('', OrderTypeEnum::Member, $ordersn);
+        $order = OrderService::checkOperate('', OrderTypeEnum::Activity, $ordersn);
         WhActOrder::update([
             'id' => $order->id,
             'status' => OrderStatusEnum::Paid,
