@@ -106,6 +106,6 @@ class User extends BaseController
         foreach ($newTrip as $key => &$value) {
             $value['act_snap'] = json_decode($value['act_snap'], true);
         }
-        return $this->xdreturn($new);
+        return $this->xdreturn($newTrip);
     }
 }
