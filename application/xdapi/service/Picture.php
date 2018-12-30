@@ -11,19 +11,10 @@ namespace app\xdapi\service;
 
 class Picture
 {
-    public static function checkImg($img)
-    {
-        $type = $img->getMime();
-        if (in_array($type, ['image/jpeg','image/png','image/gif'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public static function uploadImg($img, $directory)
     {
-        $info = $img->rule('md5')->move(ROOT_PATH.'public'.DS.$directory);
+        $info = $img->validate(['ext'=>'jpg,png,gif,JPG,PNG,GIF', 'type' => 'image/jpeg,image/png,image/gif'])->rule('md5')->move(ROOT_PATH.'public'.DS.$directory);
         if ($info) {
             $dataArray = [
                 'url' => DS.$directory.DS.$info->getSaveName(),

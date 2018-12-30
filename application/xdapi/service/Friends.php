@@ -59,4 +59,12 @@ class Friends
             WhFriendsApply::update(['id' => $apply->id, 'status' => $status]);
         }
     }
+
+    public function sendToFriends($myId, $toId, $content)
+    {
+        //检查两人角色，是发送者From_id还是接收者to_id
+
+
+    }
+
 }

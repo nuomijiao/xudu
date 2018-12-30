@@ -17,6 +17,7 @@ use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\service\Friends as FriendsService;
 use app\xdapi\service\Token;
+use app\xdapi\validate\ChatMessageNew;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
 
@@ -109,5 +110,23 @@ class Friends extends BaseController
             throw new FriendsException();
         }
         return $this->xdreturn($friend_list);
+    }
+
+    //发送消息
+    public function chat($content = '', $id = '')
+    {
+        (new ChatMessageNew())->goCheck();
+        $uid = Token::getCurrentUid();
+        //检查对方是不是好友
+        $isFriends = WhFriends::checkIsFriends($uid, $id);
+        if (!$isFriends) {
+            throw new FriendsException([
+                'msg' => '非好友不能发送消息',
+                'errorCode' => 70009,
+            ]);
+        }
+        //返回最近2天的聊天记录。
+        $chatInfo = FriendsService::sendToFriends($uid, $id, $content);
+        return $this->xdreturn($chatInfo);
     }
 }

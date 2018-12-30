@@ -69,6 +69,7 @@ Route::get('api/:version/mymomment', 'xdapi/:version.Moment/myMomment');
 Route::get('api/:version/ownerinfo/:id', 'xdapi/:version.Moment/ownerInfo');
 
 
+
 //申请添加好友
 Route::post('api/:version/applyfriend', 'xdapi/:version.Friends/apply');
 //获取好友申请列表
@@ -77,6 +78,8 @@ Route::get('api/:version/getfriendapplylist', 'xdapi/:version.Friends/getApplyLi
 Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatus');
 //获取好友列表
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
+//发送消息
+Route::post('api/:version/chat', 'xdapi/:version.Friends/chat');
 
 
 

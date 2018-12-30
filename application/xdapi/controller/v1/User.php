@@ -46,15 +46,6 @@ class User extends BaseController
     {
         $uid = Token::getCurrentUid();
         $head_img = $this->request->file('head_img');
-
-        if (!empty($head_img)) {
-            if(!Picture::checkImg($head_img)) {
-                throw new ParameterException([
-                    'msg' => '上传图片参数错误',
-                ]);
-            }
-        }
-
         $data = Picture::uploadImg($head_img, 'head_img');
         $origion_img = WhUser::where('id', '=', $uid)->value('head_img');
         $user = WhUser::update(['id'=>$uid, 'head_img'=>$data['head_img']]);

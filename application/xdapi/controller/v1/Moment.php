@@ -24,6 +24,23 @@ use app\xdapi\validate\PagingParameter;
 
 class Moment extends BaseController
 {
+
+    //动态图片上传
+    public function addMomentImg()
+    {
+        $uid = Token::getCurrentUid();
+        $moment_img = $this->request->file('moment_img');
+        if (!empty($moment_img)) {
+            if(!Picture::checkImg($moment_img)) {
+                throw new ParameterException([
+                    'msg' => '上传图片参数错误',
+                ]);
+            }
+        }
+
+    }
+
+
     //发布动态
     public function addMoment()
     {
