@@ -116,7 +116,7 @@ class Friends extends BaseController
     public function chat($content = '', $id = '')
     {
 //        (new ChatMessageNew())->goCheck();
-//        $uid = Token::getCurrentUid();
+        $uid = Token::getCurrentUid();
 //        //检查对方是不是好友
 //        $isFriends = WhFriends::checkIsFriends($uid, $id);
 //        if (!$isFriends) {
