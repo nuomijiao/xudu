@@ -9,8 +9,10 @@
 namespace app\xdapi\controller\v1;
 
 
+use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\ActivityException;
 use app\lib\exception\OrderException;
+use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
@@ -46,7 +48,7 @@ class Order extends BaseController
 
 
     //获取订单详情
-    public function getOrderDetail($id = '')
+    public function getActOrderDetail($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
         //检查订单是不是自己的。
@@ -72,6 +74,14 @@ class Order extends BaseController
                 'errorCode' => 60002
             ]);
         }
+        //修改订单状态，申请退款
+        $result = WhActOrder::update([
+            'id' => $order->id,
+            'status' => OrderStatusEnum::ApplyRefund,
+        ]);
+        throw new SuccessMessage([
+            'msg' => '申请取消退款成功，等待后台审核'
+        ]);
     }
 
     public function sureMemOrder($id = '')

@@ -16,4 +16,10 @@ class OrderStatusEnum
 
     //已支付
     const Paid = 2;
+
+    //申请退款，
+    const ApplyRefund = 3;
+
+    //退款成功
+    const Refunded = 4;
 }

@@ -109,6 +109,8 @@ Route::get('api/:version/wisheslist', 'xdapi/:version.Wishes/getWishes');
 Route::get('api/:version/sureactorder/:id', 'xdapi/:version.Order/sureActOrder');
 //生成活动订单
 Route::post('api/:version/makeactorder', 'xdapi/:version.Order/makeActOrder');
+//获取订单详情
+Route::get('api/:version/getactorderdetail', 'xdapi/:version.Order/getActOrderDetail');
 //申请取消订单，判断该活动是否已过。
 Route::post('api/:version/cancelactorder', 'xdapi/:version.Order/cancelActOrder');
 
