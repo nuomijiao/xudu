@@ -13,6 +13,7 @@ use app\lib\enum\OrderStatusEnum;
 use app\lib\enum\OrderTypeEnum;
 use app\lib\exception\ActivityException;
 use app\lib\exception\OrderException;
+use app\lib\exception\ParameterException;
 use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhMemberGrade;
@@ -71,6 +72,22 @@ class Order
         $order = WhMemOrder::create($data);
         return $order;
 
+    }
+
+    public static function checkOperate($id)
+    {
+        $order = WhActOrder::get($id);
+        if (!$order) {
+            throw new OrderException();
+        }
+        $user_id = Token::isValidOperate($order->user_id);
+        if (!$user_id) {
+            throw new ParameterException([
+                'msg' => '不能操作他人的订单',
+                'errorCode' => 10003,
+            ]);
+        }
+        return $order;
     }
 
     private static function makeOrderNo($type)

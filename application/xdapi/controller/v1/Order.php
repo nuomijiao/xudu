@@ -13,6 +13,7 @@ use app\lib\exception\ActivityException;
 use app\lib\exception\OrderException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActivity;
+use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhMemberGrade;
 use app\xdapi\service\Token;
 use app\xdapi\validate\IDMustBePositiveInt;
@@ -43,6 +44,36 @@ class Order extends BaseController
         return $this->xdreturn($order);
     }
 
+
+    //获取订单详情
+    public function getOrderDetail($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        //检查订单是不是自己的。
+        $order = OrderService::checkOperate($id);
+        $newOrder = json_decode($order->act_snap, true);
+        $newOrder['order_id'] = $id;
+        return $this->xdreturn($newOrder);
+    }
+
+
+
+    //$id为订单的id
+    public function cancelActOrder($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        //检查订单是不是自己的。
+        $order = OrderService::checkOperate($id);
+        //判断如果活动开始时间已过，则不允许退款
+        $start_time = json_decode($order->act_snap, true)['start_time'];
+        if (time() > $start_time) {
+            throw new OrderException([
+                'msg' => '活动已经开始，不能退款',
+                'errorCode' => 60002
+            ]);
+        }
+    }
+
     public function sureMemOrder($id = '')
     {
         (new IDMustBePositiveInt())->goCheck();
@@ -66,6 +97,9 @@ class Order extends BaseController
         $order = OrderService::createMemOrder($dataArray, $uid);
         return $this->xdreturn($order);
     }
+
+
+
 
 
 }

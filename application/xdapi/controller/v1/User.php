@@ -14,6 +14,7 @@ use app\lib\exception\SuccessMessage;
 use app\lib\exception\UserException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhActCollect;
+use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhFeedback;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\model\WhMemberGrade;
@@ -21,6 +22,7 @@ use app\xdapi\model\WhUser;
 use app\xdapi\service\Picture;
 use app\xdapi\service\Token;
 use app\xdapi\validate\FeedbackNew;
+use app\xdapi\validate\PagingParameter;
 use app\xdapi\validate\UserInfo;
 
 class User extends BaseController
@@ -93,5 +95,17 @@ class User extends BaseController
         $memberInfo = WhMemberGrade::get(1);
         $power = unserialize($memberInfo->power);
         return $this->xdreturn($power);
+    }
+
+    public function getMyTrip($page = 1, $size = 10)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        $trip = WhActOrder::getPayOrder($uid, $page, $size);
+        $newTrip = $trip->toArray();
+        foreach ($newTrip as $key => &$value) {
+            $value['act_snap'] = json_decode($value['act_snap'], true);
+        }
+        return $this->xdreturn($trip);
     }
 }
