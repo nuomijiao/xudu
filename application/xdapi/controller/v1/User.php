@@ -102,10 +102,7 @@ class User extends BaseController
         (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();
         $trip = WhActOrder::getPayOrder($uid, $page, $size);
-        $newTrip = $trip->toArray();
-        echo "<pre>";
-        print_r($newTrip['data']);
-        echo "</pre>";die;
+        $newTrip = $trip->toArray()['data'];
         foreach ($newTrip as $key => &$value) {
             $value['act_snap'] = json_decode($value['act_snap'], true);
         }
