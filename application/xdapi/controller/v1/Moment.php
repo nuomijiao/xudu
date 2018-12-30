@@ -125,6 +125,26 @@ class Moment extends BaseController
         ]);
     }
 
+    public function userMoment($id = '', $page = 1, $size = 10)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        $pagingMoments = WhMoments::getUserMoments($uid, $id, $page, $size);
+        if ($pagingMoments->isEmpty()) {
+            throw new MomentsException([
+                'msg' => '用户动态已见底线',
+                'errorCode' => 70010,
+            ]);
+        }
+        $data = $pagingMoments->toArray();
+        return json([
+            'error_code' => 'Success',
+            'data' => $data,
+            'current_page' => $pagingMoments->getCurrentPage(),
+        ]);
+    }
+
     //动态点赞
     public function clickZan($id = '')
     {

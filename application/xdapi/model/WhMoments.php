@@ -88,4 +88,17 @@ class WhMoments extends BaseModel
             }
         ])->where('user_id', '=', $uid)->paginate($size, true, ['page' => $page]);
     }
+
+    public static function getUserMoments($uid, $id, $page, $size)
+    {
+        return self::with(['allImg'])->with([
+            'userInfo' => function($query) {
+                $query->field(['id', 'user_name', 'head_img']);
+            }
+        ])->with([
+            'thisMyZan' => function($q) use ($uid){
+                $q->where('user_id', '=', $uid);
+            }
+        ])->where('user_id', '=', $id)->paginate($size, true, ['page' => $page]);
+    }
 }

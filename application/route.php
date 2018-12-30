@@ -40,7 +40,6 @@ Route::post('api/:version/sendsms', 'xdapi/:version.Sms/registerSms');
 //发送密码重置验证码
 Route::post('api/:version/resetsms', 'xdapi/:version.Sms/resetSms');
 
-
 //注册
 Route::post('api/:version/register', 'xdapi/:version.LogAndReg/register');
 //登录
@@ -68,7 +67,8 @@ Route::post('api/:version/replycomment', 'xdapi/:version.Moment/replyComment');
 Route::get('api/:version/mymomment', 'xdapi/:version.Moment/myMomment');
 //获取作者信息
 Route::get('api/:version/ownerinfo/:id', 'xdapi/:version.Moment/ownerInfo');
-
+//获取别人所有动态
+Route::get('api/:version/usermoment', 'xdapi/:version.Moment/userMoment');
 
 
 //申请添加好友

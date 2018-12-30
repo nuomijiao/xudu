@@ -13,7 +13,7 @@ class WhChat extends BaseModel
 {
     protected $autoWriteTimestamp= true;
 
-    public static function checkUsersRole($myId, $toId)
+    public static function getLastNew($myId, $toId)
     {
         return self::where("(`from_id` = "."$myId"." AND `to_id` =".$toId.") OR (`to_id` = ".$myId." AND `from_id` = ".$toId.")")->order('id', 'desc')->limit(1)->find();
     }
