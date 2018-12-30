@@ -22,7 +22,7 @@ use think\Exception;
 class Moment extends Picture
 {
 
-    public static function releaseMoment($uid, $img, $title, $addr, $ids) {
+    public static function releaseMoment($uid, $title, $addr, $ids) {
         //获取临时图片文件夹相关图片
         //更新到正式数据表
         //删除临时图片数据表数据

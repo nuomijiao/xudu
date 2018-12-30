@@ -50,12 +50,11 @@ class Moment extends BaseController
 
         $title = $request->param('title');
         $ids  = $request->param('ids');
-        $imgs = $request->param('imgs');
         $location = $request->param('location');
 
         $uid = Token::getCurrentUid();
         //上传动态
-        $data = MomentService::releaseMoment($uid,$imgs,$title,$location, $ids);
+        $data = MomentService::releaseMoment($uid,$title,$location, $ids);
         return $this->xdreturn($data);
     }
 

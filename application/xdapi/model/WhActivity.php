@@ -49,7 +49,7 @@ class WhActivity extends BaseModel
             'city' => function($query) {
                 $query->field(['name', 'shortname', 'id']);
             }
-        ])->where('is_hot', '=', 1)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
+        ])->where('is_hot', '=', 1)->where('start_time', '>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
 
     public static function getActDetail($id, $uid)
@@ -91,8 +91,11 @@ class WhActivity extends BaseModel
             $where['is_hot'] = ['=', ActivityTypeEnum::Hot];
         }
         $where['act_name'] = ['like', "%".$searchkey."%"];
+        if ($id) {
+            $where['cat_id'] = ['=', $id];
+        }
 
-        return self::where('cat_id', '=', $id)->where($where)->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
+        return self::where('cat_id', '=', $id)->where($where)->where('start_time','>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
 
     }
 

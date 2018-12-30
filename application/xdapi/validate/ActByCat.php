@@ -12,7 +12,7 @@ namespace app\xdapi\validate;
 class ActByCat extends BaseValidate
 {
     protected $rule = [
-        'id' => 'require|isPositiveInteger',
+        'id' => 'isPositiveInteger',
         'page' => 'isPositiveInteger',
         'size' => 'isPositiveInteger',
         'type' => 'require|in:0,1',
