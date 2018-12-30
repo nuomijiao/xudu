@@ -32,7 +32,7 @@ class Moment extends BaseController
     {
         $uid = Token::getCurrentUid();
         $moment_img = $this->request->file('moment_img');
-        $data = Picture::uploadImg($moment_img, 'moment_img');
+        $data = Picture::uploadImg($moment_img, 'moment_tmp_img');
         //存到临时图片文件夹
         $img = WhTempImgs::create([
             'img_url' => $data['url'],

@@ -29,6 +29,7 @@ class Moment extends Picture
         //移动图片到正式文件夹
         $moment_imgs = WhTempImgs::whereIn('id',$ids)->select()->toArray();
         $new_moment_imgs = [];
+        $new_imgs = [];
         $new_ids = '';
         Db::startTrans();
         try {
@@ -53,7 +54,10 @@ class Moment extends Picture
             WhTempImgs::destroy($new_ids);
             Db::commit();
             foreach ($new_moment_imgs as $key => $value) {
-                rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['img_name']);
+                if (!in_array($value['img_url'], $new_imgs)) {
+                    rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['img_name']);
+                }
+                array_push($new_imgs, $value['img_url']);
             }
             $data = [
                 'title' => $title,
