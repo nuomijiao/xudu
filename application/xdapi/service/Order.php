@@ -75,7 +75,7 @@ class Order
 
     }
 
-    public static function checkOperate($id, $type = OrderTypeEnum::Activity, $ordersn)
+    public static function checkOperate($id, $type = OrderTypeEnum::Activity, $ordersn = '')
     {
         if (!empty($id)) {
             if (OrderTypeEnum::Activity == $type) {
