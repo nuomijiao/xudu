@@ -54,15 +54,17 @@ class Moment extends Picture
             WhTempImgs::destroy($new_ids);
             Db::commit();
             foreach ($new_moment_imgs as $key => $value) {
-                if (!in_array($value['img_url'], $new_imgs)) {
-                    rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['img_name']);
+                if (!in_array(DS."images".DS.$value['img_name'], $new_imgs)) {
+                    if (file_exists(ROOT_PATH.'public'.$value['img_url'])) {
+                        rename(ROOT_PATH.'public'.$value['img_url'], ROOT_PATH.'public'.DS.'images'.DS.$value['img_name']);
+                    }
                 }
-                array_push($new_imgs, $value['img_url']);
+                array_push($new_imgs, DS."images".DS.$value['img_url']);
             }
             $data = [
                 'title' => $title,
                 'location' => $addr,
-                'img' => $new_moment_imgs,
+                'img' => $new_imgs,
             ];
             return $data;
         } catch(Exception $ex) {
