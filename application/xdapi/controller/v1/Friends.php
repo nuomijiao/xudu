@@ -113,12 +113,12 @@ class Friends extends BaseController
     }
 
     //发送消息
-    public function chat($content = '', $id = '')
+    public function chat($content = '', $to_id = '')
     {
         (new ChatMessageNew())->goCheck();
         $uid = Token::getCurrentUid();
         //检查对方是不是好友
-        $isFriends = WhFriends::checkIsFriends($uid, $id);
+        $isFriends = WhFriends::checkIsFriends($uid, $to_id);
         if (!$isFriends) {
             throw new FriendsException([
                 'msg' => '非好友不能发送消息',
@@ -126,7 +126,7 @@ class Friends extends BaseController
             ]);
         }
         //返回最近2天的聊天记录。
-        $chatInfo = FriendsService::sendToFriends($uid, $id, $content);
+        $chatInfo = FriendsService::sendToFriends($uid, $to_id, $content);
         return $this->xdreturn($chatInfo);
     }
 }
