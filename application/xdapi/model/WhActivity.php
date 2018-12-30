@@ -95,7 +95,7 @@ class WhActivity extends BaseModel
             $where['cat_id'] = ['=', $id];
         }
 
-        return self::where('cat_id', '=', $id)->where($where)->where('start_time','>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
+        return self::where($where)->where('start_time','>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
 
     }
 
