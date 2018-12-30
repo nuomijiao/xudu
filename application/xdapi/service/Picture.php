@@ -26,7 +26,7 @@ class Picture
             return $dataArray;
         } else {
             throw new ParameterException([
-                'msg' => '上传图片参数有错误',
+                'msg' => $img->getError,
             ]);
         }
     }
