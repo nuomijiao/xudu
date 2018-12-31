@@ -97,7 +97,12 @@ class Friends
             WhNews::create($data);
         }
 
+        $talkInfo = self::getChatInfo($myId, $toId);
+        return $talkInfo;
+    }
 
+    public static function getChatInfo($myId, $toId)
+    {
         //返回7天之内的消息
         $talkInfo = WhChat::getTalkInDays(time()- config('setting.day') * 24 * 3600, $myId, $toId);
         $newTalkInfo = $talkInfo->toArray();
@@ -105,7 +110,7 @@ class Friends
             if ($value['from_id'] == $myId) {
                 $value['mys'] = 1;
             } else {
-                $value['mys']  = 0;
+                $value['mys'] = 0;
             }
         }
         return $newTalkInfo;

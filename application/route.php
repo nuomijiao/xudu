@@ -79,6 +79,8 @@ Route::get('api/:version/getfriendapplylist', 'xdapi/:version.Friends/getApplyLi
 Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatus');
 //获取好友列表
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
+//获取对话信息
+Route::get('api/:version/chatinfo/:id', 'xdapi/:version.Friends/ChatInfo');
 //发送消息
 Route::post('api/:version/chat', 'xdapi/:version.Friends/chat');
 //获取消息列表

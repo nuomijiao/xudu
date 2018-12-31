@@ -138,6 +138,24 @@ class Friends extends BaseController
         return $this->xdreturn($chatInfo);
     }
 
+    //获取对话信息
+    public function chatInfo($id = '')
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $uid = Token::getCurrentUid();
+        //检查对方是不是好友
+        $isFriends = WhFriends::checkIsFriends($uid, $id);
+        if (!$isFriends) {
+            throw new FriendsException([
+                'msg' => '非好友不能进行对话',
+                'errorCode' => 70009,
+            ]);
+        }
+        //返回最近7天的聊天记录。
+        $chatInfo = FriendsService::getChatInfo($uid, $id);
+        return $this->xdreturn($chatInfo);
+    }
+
     //获取消息列表
     public function getNewsList($keywords = '', $page = 1, $size = 10)
     {
