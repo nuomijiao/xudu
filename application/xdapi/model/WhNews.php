@@ -18,6 +18,6 @@ class WhNews extends BaseModel
 
     public static function getNewsByUid($uid, $page, $size, $keywords)
     {
-        return self::with(['fromUser'])->where('to_id', '=', $uid)->where('user_name', 'like', "%$keywords%")->order('last_time', 'desc')->paginate($size, true, ['page' => $page]);
+        return self::with(['fromUser'])->where('to_id', '=', $uid)->order('last_time', 'desc')->paginate($size, true, ['page' => $page]);
     }
 }
