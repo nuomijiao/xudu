@@ -18,7 +18,7 @@ class WhFriends extends BaseModel
 
     public static function getFriendList($uid, $keywords)
     {
-        return self::with(['friends'])->where('my_id', '=', $uid)->fetchSql(true)->select();
+        return self::with(['friends'])->where('my_id', '=', $uid)->select();
     }
 
     //获取好友id列表
