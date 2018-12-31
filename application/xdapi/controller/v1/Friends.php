@@ -134,11 +134,11 @@ class Friends extends BaseController
     }
 
     //获取消息列表
-    public function getNewsList($page = 1, $size = 10)
+    public function getNewsList($keywords = '', $page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();
-        $pagingNews = WhNews::getNewsByUid($uid, $page, $size);
+        $pagingNews = WhNews::getNewsByUid($uid, $page, $size, $keywords);
         if ($pagingNews->isEmpty()) {
             throw new NewsException([
                 'msg' => '好友消息列表已见底',

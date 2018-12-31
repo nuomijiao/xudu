@@ -86,7 +86,7 @@ class WhMoments extends BaseModel
             'thisMyZan' => function($q) use ($uid){
                 $q->where('user_id', '=', $uid);
             }
-        ])->where('user_id', '=', $uid)->paginate($size, true, ['page' => $page]);
+        ])->where('user_id', '=', $uid)->order('create_time','desc')->paginate($size, true, ['page' => $page]);
     }
 
     public static function getUserMoments($uid, $id, $page, $size)
@@ -99,6 +99,6 @@ class WhMoments extends BaseModel
             'thisMyZan' => function($q) use ($uid){
                 $q->where('user_id', '=', $uid);
             }
-        ])->where('user_id', '=', $id)->paginate($size, true, ['page' => $page]);
+        ])->where('user_id', '=', $id)->order('create_time','desc')->paginate($size, true, ['page' => $page]);
     }
 }
