@@ -10,6 +10,7 @@ use app\xdapi\model\WhActCollect;
 use app\xdapi\model\WhActivity;
 use app\xdapi\service\Token;
 use app\xdapi\validate\ActByCat;
+use app\xdapi\validate\CityId;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\PagingParameter;
 
@@ -17,11 +18,12 @@ use app\xdapi\validate\PagingParameter;
 class Activity extends BaseController
 {
 
-    //获取热门动态
-    public function getHot($page = 1, $size = 10)
+    //获取热门活动
+    public function getHot($city_id = 861, $page = 1, $size = 10)
     {
         (new PagingParameter())->goCheck();
-        $pagingHotAct = WhActivity::getHotActivity($page, $size);
+        (new CityId())->goCheck();
+        $pagingHotAct = WhActivity::getHotActivity($city_id, $page, $size);
         if ($pagingHotAct->isEmpty()) {
             throw new ActivityException([
                 'msg' => '热门活动已见底线',
@@ -101,10 +103,10 @@ class Activity extends BaseController
     }
 
     //获取分类下的活动列表
-    public function getActByCat($id = '', $page = 1, $size = 10, $type = ActivityTypeEnum::All, $searchkey = '')
+    public function getActByCat($city_id = 861, $id = '', $page = 1, $size = 10, $type = ActivityTypeEnum::All, $searchkey = '')
     {
         (new ActByCat())->goCheck();
-        $pagingAct = WhActivity::getActivityByCat($id, $page, $size, $type, $searchkey);
+        $pagingAct = WhActivity::getActivityByCat($city_id, $id, $page, $size, $type, $searchkey);
         if ($pagingAct->isEmpty()) {
             throw new ActivityException([
                 'msg' => '分类下活动已见底线',

@@ -16,6 +16,7 @@ class ActByCat extends BaseValidate
         'page' => 'isPositiveInteger',
         'size' => 'isPositiveInteger',
         'type' => 'require|in:0,1',
+        'city_id' => 'isPositiveInteger',
     ];
 
     protected $message = [

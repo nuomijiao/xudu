@@ -81,6 +81,8 @@ Route::post('api/:version/applystatus', 'xdapi/:version.Friends/updateApplyStatu
 Route::get('api/:version/getfriendlist', 'xdapi/:version.Friends/getList');
 //发送消息
 Route::post('api/:version/chat', 'xdapi/:version.Friends/chat');
+//获取消息列表
+Route::get('api/:version/getnewslist', 'xdapi/:version.Friends/getNewsList');
 
 
 
@@ -150,4 +152,7 @@ Route::get('api/:version/getprovince', 'xdapi/:version.Character/getProvince');
 Route::get('api/:version/getcitybyprovince', 'xdapi/:version.Character/getCityByProvince');
 //获取联动区
 Route::get('api/:version/getdistrictbycity', 'xdapi/:version.Character/getDistrictByCity');
+
+//获取系统消息
+Route::get('api/:version/getsystemnews', 'xdapi/:version.SystemNews/getSystemNews');
 

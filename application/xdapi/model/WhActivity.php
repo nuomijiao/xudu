@@ -43,13 +43,13 @@ class WhActivity extends BaseModel
         return $this->hasMany('WhActCollect', 'act_id', 'id');
     }
 
-    public static function getHotActivity($page, $size)
+    public static function getHotActivity($city_id, $page, $size)
     {
         return self::with([
             'city' => function($query) {
                 $query->field(['name', 'shortname', 'id']);
             }
-        ])->where('is_hot', '=', 1)->where('start_time', '>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
+        ])->where('is_hot', '=', 1)->where('city_id', '=', $city_id)->where('start_time', '>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'join_number', 'main_img', 'address'])->order('join_number', 'desc')->paginate($size, true, ['page' => $page]);
     }
 
     public static function getActDetail($id, $uid)
@@ -84,7 +84,7 @@ class WhActivity extends BaseModel
         return self::field(['id','act_name','act_ad_price','act_ch_price','act_ad_member_price', 'act_ch_member_price', 'main_img', 'start_time', 'act_attach'])->where('id', '=', $id)->find();
     }
 
-    public static function getActivityByCat($id, $page, $size, $type, $searchkey)
+    public static function getActivityByCat($city_id, $id, $page, $size, $type, $searchkey)
     {
         $where = [];
         if (ActivityTypeEnum::Hot == $type) {
@@ -94,6 +94,7 @@ class WhActivity extends BaseModel
         if ($id) {
             $where['cat_id'] = ['=', $id];
         }
+        $where['city_id'] = ['=', $city_id];
 
         return self::where($where)->where('start_time','>', time())->field(['id', 'act_name', 'act_ad_price', 'start_time', 'city_id', 'main_img'])->paginate($size, true, ['page' => $page]);
 

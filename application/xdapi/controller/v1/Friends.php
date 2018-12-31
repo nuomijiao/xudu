@@ -11,15 +11,18 @@ namespace app\xdapi\controller\v1;
 
 use app\lib\enum\FriendsApplyStatusEnum;
 use app\lib\exception\FriendsException;
+use app\lib\exception\NewsException;
 use app\lib\exception\SuccessMessage;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
+use app\xdapi\model\WhNews;
 use app\xdapi\service\Friends as FriendsService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\ChatMessageNew;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
+use app\xdapi\validate\PagingParameter;
 
 class Friends extends BaseController
 {
@@ -125,8 +128,28 @@ class Friends extends BaseController
                 'errorCode' => 70009,
             ]);
         }
-        //返回最近2天的聊天记录。
+        //返回最近7天的聊天记录。
         $chatInfo = FriendsService::sendToFriends($uid, $to_id, $content);
         return $this->xdreturn($chatInfo);
+    }
+
+    //获取消息列表
+    public function getNewsList($page = 1, $size = 10)
+    {
+        (new PagingParameter())->goCheck();
+        $uid = Token::getCurrentUid();
+        $pagingNews = WhNews::getNewsByUid($uid, $page, $size);
+        if ($pagingNews->isEmpty()) {
+            throw new NewsException([
+                'msg' => '好友消息列表已见底',
+                'errorCode' => 11001,
+            ]);
+        }
+        $data = $pagingNews->toArray();
+        return json([
+            'error_code' => 'Success',
+            'data' => $data,
+            'current_page' => $pagingNews->getCurrentPage(),
+        ]);
     }
 }

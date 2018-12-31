@@ -15,6 +15,7 @@ use app\lib\exception\ParameterException;
 use app\xdapi\model\WhChat;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
+use app\xdapi\model\WhNews;
 use think\Db;
 use think\Exception;
 
@@ -77,6 +78,25 @@ class Friends
         }
         //发送消息
         WhChat::create($data);
+        //产生消息列表
+        //1判断是否有消息列表
+        //更新或添加
+        $newsList = WhNews::where(['from_id' => $myId, 'to_id' => $toId])->find();
+        $data = [
+            'last_time' => time(),
+        ];
+        if ($newsList) {
+            WhNews::update([
+                'id' => $newsList->id,
+                'last_time' => $data['last_time'],
+            ]);
+        } else {
+            $data['from_id'] = $myId;
+            $data['to_id'] = $toId;
+            WhNews::create($data);
+        }
+
+
         //返回7天之内的消息
         $talkInfo = WhChat::getTalkInDays(time()- config('setting.day') * 24 * 3600, $myId, $toId);
         $newTalkInfo = $talkInfo->toArray();
