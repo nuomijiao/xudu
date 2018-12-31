@@ -40,4 +40,9 @@ class WhUser extends BaseModel
         return $user;
     }
 
+    public static function getUserByKey($key)
+    {
+        return self::where('user_name', 'like', '%'.$key.'%')->field('id')->select();
+    }
+
 }

@@ -16,6 +16,7 @@ use app\xdapi\model\WhChat;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\model\WhNews;
+use app\xdapi\model\WhUser;
 use think\Db;
 use think\Exception;
 
@@ -108,6 +109,19 @@ class Friends
             }
         }
         return $newTalkInfo;
+    }
+
+    public static function getUserIds($keywords)
+    {
+        $users = WhUser::getUserByKey($keywords);
+        $ids = '';
+        if (!$users->isEmpty()) {
+            foreach ($users->toArray() as $key => $value) {
+                $ids .= $value['id'].",";
+            }
+            $ids = rtrim($ids, ',');
+        }
+        return $ids;
     }
 
 }

@@ -16,12 +16,12 @@ class WhNews extends BaseModel
         return $this->belongsTo('WhUser', 'from_id', 'id');
     }
 
-    public static function getNewsByUid($uid, $page, $size, $keywords)
+    public static function getNewsByUid($uid, $page, $size, $where = '')
     {
         return self::with([
-            'fromUser' => function ($query) use ($keywords){
-                $query->field(['id', 'user_name', 'head_img'])->where('user_name', 'like', "%$keywords%");
+            'fromUser' => function ($query) {
+                $query->field(['id', 'user_name', 'head_img']);
             }
-        ])->where('to_id', '=', $uid)->order('last_time', 'desc')->paginate($size, true, ['page' => $page]);
+        ])->where('to_id', '=', $uid)->where($where)->order('last_time', 'desc')->paginate($size, true, ['page' => $page]);
     }
 }

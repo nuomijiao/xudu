@@ -108,7 +108,12 @@ class Friends extends BaseController
     public function getList($keywords = '')
     {
         $uid = Token::getCurrentUid();
-        $friend_list = WhFriends::getFriendList($uid, $keywords);
+        //获取搜索的ids
+        $ids = FriendsService::getUserIds($keywords);
+        if (!empty($ids)) {
+            $where['friend_id'] = ['in', $ids];
+        }
+        $friend_list = WhFriends::getFriendList($uid, $where);
         if ($friend_list->isEmpty()) {
             throw new FriendsException();
         }
@@ -138,7 +143,12 @@ class Friends extends BaseController
     {
         (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();
-        $pagingNews = WhNews::getNewsByUid($uid, $page, $size, $keywords);
+        //获取搜索的ids
+        $ids = FriendsService::getUserIds($keywords);
+        if (!empty($ids)) {
+            $where['from_id'] = ['in', $ids];
+        }
+        $pagingNews = WhNews::getNewsByUid($uid, $page, $size, $where);
         if ($pagingNews->isEmpty()) {
             throw new NewsException([
                 'msg' => '好友消息列表已见底',

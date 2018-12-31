@@ -13,12 +13,16 @@ class WhFriends extends BaseModel
 {
     public function friends()
     {
-        return $this->belongsTo('WhUser', 'friend_id', 'id', [], 'LEFT');
+        return $this->belongsTo('WhUser', 'friend_id', 'id');
     }
 
-    public static function getFriendList($uid, $keywords)
+    public static function getFriendList($uid, $where = '')
     {
-        return self::with(['friends'])->where('my_id', '=', $uid)->select();
+        return self::with([
+            'friends' => function($query) {
+                $query->field(['id', 'head_img', 'user_name']);
+            }
+        ])->where('my_id', '=', $uid)->where($where)->select();
     }
 
     //获取好友id列表
