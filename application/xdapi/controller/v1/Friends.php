@@ -105,10 +105,10 @@ class Friends extends BaseController
 
 
     //获取自己的好友列表
-    public function getList()
+    public function getList($keywords = '')
     {
         $uid = Token::getCurrentUid();
-        $friend_list = WhFriends::getFriendList($uid);
+        $friend_list = WhFriends::getFriendList($uid, $keywords);
         if ($friend_list->isEmpty()) {
             throw new FriendsException();
         }
