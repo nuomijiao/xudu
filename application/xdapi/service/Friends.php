@@ -113,7 +113,7 @@ class Friends
         }
 
         $newTalkInfo = $pagingtalkInfo->toArray();
-        return $newTalkInfo;
+        return $newTalkInfo['data'];
         foreach ($newTalkInfo['data'] as $key => &$value) {
             if ($value['from_id'] == $myId) {
                 $value['mys'] = 1;
