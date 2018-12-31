@@ -50,7 +50,7 @@ class Moment extends Picture
                     WhMomentImage::create($data);
                 }
             }
-            $new_ids = rtrim($new_ids, ','). ROOT_PATH;
+            $new_ids = rtrim($new_ids, ',');
             WhTempImgs::destroy($new_ids);
             Db::commit();
             foreach ($new_moment_imgs as $key => $value) {
