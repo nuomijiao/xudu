@@ -23,15 +23,4 @@ class MomentNew extends BaseValidate
 
     ];
 
-    public function isIds($value)
-    {
-        $rule = '/^\d+(,\d+)*$/';
-        $result = preg_match($rule, $value);
-        if ($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
