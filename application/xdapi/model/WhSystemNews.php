@@ -20,7 +20,7 @@ class WhSystemNews extends BaseModel
 
     public static function getSystemNews($page, $size)
     {
-        return self::where('is_show', '=', 1)->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
+        return self::where('is_show', '=', 1)->field(['id', 'title', 'main_img', 'brief', 'create_time'])->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
     }
 
 }

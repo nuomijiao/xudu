@@ -12,6 +12,7 @@ namespace app\xdapi\controller\v1;
 use app\lib\exception\NewsException;
 use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhSystemNews;
+use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\PagingParameter;
 
 class SystemNews extends BaseController
@@ -32,5 +33,15 @@ class SystemNews extends BaseController
             'data' => $data,
             'current_page' => $pagingNews->getCurrentPage(),
         ]);
+    }
+
+    public function getSystemNewsDetail($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $detail = WhSystemNews::get($id);
+        if (!$detail) {
+            throw new NewsException();
+        }
+        return $this->xdreturn($detail);
     }
 }
