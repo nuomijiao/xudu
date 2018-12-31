@@ -112,18 +112,23 @@ class Friends
             ]);
         }
         $newTalkInfo = $pagingtalkInfo->toArray();
-        foreach ($newTalkInfo['data'] as $key => &$value) {
-            if ($value['from_id'] == $myId) {
-                $value['mys'] = 1;
-            } else {
-                $value['mys'] = 0;
-            }
-        }
         return json([
             'error_code' => 'Success',
             'data' => $newTalkInfo,
             'current_page' => $pagingtalkInfo->getCurrentPage(),
         ]);
+//        foreach ($newTalkInfo['data'] as $key => &$value) {
+//            if ($value['from_id'] == $myId) {
+//                $value['mys'] = 1;
+//            } else {
+//                $value['mys'] = 0;
+//            }
+//        }
+//        return json([
+//            'error_code' => 'Success',
+//            'data' => $newTalkInfo,
+//            'current_page' => $pagingtalkInfo->getCurrentPage(),
+//        ]);
     }
 
     public static function getUserIds($keywords)
