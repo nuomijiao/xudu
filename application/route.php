@@ -155,4 +155,6 @@ Route::get('api/:version/getdistrictbycity', 'xdapi/:version.Character/getDistri
 
 //获取系统消息
 Route::get('api/:version/getsystemnews', 'xdapi/:version.SystemNews/getSystemNews');
+//获取系统消息详情
+Route::get('api/:vresion/getsystemnewsdetail/:id', 'xdapi/:version.SystemNews/getSystemNewsDetail');
 
