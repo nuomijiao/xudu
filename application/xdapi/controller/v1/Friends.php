@@ -109,9 +109,9 @@ class Friends extends BaseController
     {
         $uid = Token::getCurrentUid();
         $friend_list = WhFriends::getFriendList($uid, $keywords);
-        if ($friend_list->isEmpty()) {
-            throw new FriendsException();
-        }
+//        if ($friend_list->isEmpty()) {
+//            throw new FriendsException();
+//        }
         return $this->xdreturn($friend_list);
     }
 
