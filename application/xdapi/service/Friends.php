@@ -111,12 +111,9 @@ class Friends
                 'errorCode' => 80004,
             ]);
         }
+        return $pagingtalkInfo;
         $newTalkInfo = $pagingtalkInfo->toArray();
-        return json([
-            'error_code' => 'Success',
-            'data' => $newTalkInfo,
-            'current_page' => $pagingtalkInfo->getCurrentPage(),
-        ]);
+
 //        foreach ($newTalkInfo['data'] as $key => &$value) {
 //            if ($value['from_id'] == $myId) {
 //                $value['mys'] = 1;
