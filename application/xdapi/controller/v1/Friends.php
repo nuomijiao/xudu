@@ -121,8 +121,9 @@ class Friends extends BaseController
     }
 
     //发送消息
-    public function chat($content = '', $to_id = '')
+    public function chat($content = '', $to_id = '', $page = 1, $size = 10)
     {
+        (new PagingParameter())->goCheck();
         (new ChatMessageNew())->goCheck();
         $uid = Token::getCurrentUid();
         //检查对方是不是好友
@@ -134,14 +135,15 @@ class Friends extends BaseController
             ]);
         }
         //返回最近7天的聊天记录。
-        $chatInfo = FriendsService::sendToFriends($uid, $to_id, $content);
+        $chatInfo = FriendsService::sendToFriends($uid, $to_id, $content, $page, $size);
         return $this->xdreturn($chatInfo);
     }
 
     //获取对话信息
-    public function chatInfo($id = '')
+    public function chatInfo($id = '', $page = 1, $size = 10)
     {
         (new IDMustBePositiveInt())->goCheck();
+        (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();
         //检查对方是不是好友
         $isFriends = WhFriends::checkIsFriends($uid, $id);
@@ -151,8 +153,7 @@ class Friends extends BaseController
                 'errorCode' => 70009,
             ]);
         }
-        //返回最近7天的聊天记录。
-        $chatInfo = FriendsService::getChatInfo($uid, $id);
+        $chatInfo = FriendsService::getChatInfo($uid, $id, $page, $size);
         return $this->xdreturn($chatInfo);
     }
 

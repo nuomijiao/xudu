@@ -12,6 +12,7 @@ namespace app\xdapi\service;
 use app\lib\enum\FriendsApplyStatusEnum;
 use app\lib\exception\FriendsException;
 use app\lib\exception\ParameterException;
+use app\lib\exception\UserException;
 use app\xdapi\model\WhChat;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
@@ -63,7 +64,7 @@ class Friends
         }
     }
 
-    public static function sendToFriends($myId, $toId, $content)
+    public static function sendToFriends($myId, $toId, $content, $page, $size)
     {
         //获取两人最近的一条信息
         $lastNew = WhChat::getLastNew($myId, $toId);
@@ -97,15 +98,20 @@ class Friends
             WhNews::create($data);
         }
 
-        $talkInfo = self::getChatInfo($myId, $toId);
+        $talkInfo = self::getChatInfo($myId, $toId, $page, $size);
         return $talkInfo;
     }
 
-    public static function getChatInfo($myId, $toId)
+    public static function getChatInfo($myId, $toId, $page, $size)
     {
-        //返回7天之内的消息
-        $talkInfo = WhChat::getTalkInDays(time()- config('setting.day') * 24 * 3600, $myId, $toId);
-        $newTalkInfo = $talkInfo->toArray();
+        $pagingtalkInfo = WhChat::getTalkInDays( $myId, $toId, $page, $size);
+        if ($pagingtalkInfo->isEmpty()) {
+            throw new UserException([
+                'msg' => '消息已见底线',
+                'errorCode' => 80004,
+            ]);
+        }
+        $newTalkInfo = $pagingtalkInfo->toArray();
         foreach ($newTalkInfo as $key => &$value) {
             if ($value['from_id'] == $myId) {
                 $value['mys'] = 1;
@@ -113,7 +119,11 @@ class Friends
                 $value['mys'] = 0;
             }
         }
-        return $newTalkInfo;
+        return json([
+            'error_code' => 'Success',
+            'data' => $newTalkInfo,
+            'current_page' => $pagingtalkInfo->getCurrentPage(),
+        ]);
     }
 
     public static function getUserIds($keywords)

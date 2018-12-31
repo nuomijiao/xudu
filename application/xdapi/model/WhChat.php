@@ -28,16 +28,12 @@ class WhChat extends BaseModel
         return self::where("(`from_id` = "."$myId"." AND `to_id` =".$toId.") OR (`to_id` = ".$myId." AND `from_id` = ".$toId.")")->order('id', 'desc')->limit(1)->find();
     }
 
-    public static function getTalkInDays($time, $myId, $toId)
+    public static function getTalkInDays($myId, $toId, $page, $size)
     {
         return self::with([
             'my' => function ($query) {
                 $query->field(['id', 'head_img']);
             }
-        ])->with([
-            'to' => function ($qu) {
-                $qu->field(['id', 'head_img']);
-            }
-        ])->where("`create_time` >= ".$time." AND ((`from_id` = "."$myId"." AND `to_id` =".$toId.") OR (`to_id` = ".$myId." AND `from_id` = ".$toId."))")->order('id', 'desc')->select();
+        ])->where("(`from_id` = "."$myId"." AND `to_id` =".$toId.") OR (`to_id` = ".$myId." AND `from_id` = ".$toId.")")->order('id', 'desc')->paginate($size, true, ['page' => $page]);
     }
 }
