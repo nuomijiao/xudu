@@ -154,7 +154,6 @@ class Friends extends BaseController
             ]);
         }
         $chatInfo = FriendsService::getChatInfo($uid, $id, $page, $size);
-        return $chatInfo;
         return $this->xdreturn($chatInfo);
     }
 

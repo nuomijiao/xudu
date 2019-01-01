@@ -112,20 +112,20 @@ class Friends
             ]);
         }
 
-        $newTalkInfo = $pagingtalkInfo->toArray();
-        return $newTalkInfo['data'];
-        foreach ($newTalkInfo['data'] as $key => &$value) {
+        $newTalkInfo = $pagingtalkInfo->toArray()['data'];
+
+        foreach ($newTalkInfo as $key => &$value) {
             if ($value['from_id'] == $myId) {
                 $value['mys'] = 1;
             } else {
                 $value['mys'] = 0;
             }
         }
-        return json([
+        return [
             'error_code' => 'Success',
-            'data' => $newTalkInfo['data'],
+            'data' => $newTalkInfo,
             'current_page' => $pagingtalkInfo->getCurrentPage(),
-        ]);
+        ];
     }
 
     public static function getUserIds($keywords)
