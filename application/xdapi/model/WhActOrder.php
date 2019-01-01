@@ -19,4 +19,9 @@ class WhActOrder extends BaseModel
     {
         return self::where('user_id', '=', $uid)->where('status', '=', OrderStatusEnum::Paid)->paginate($size, true, ['page' => $page]);
     }
+
+    public static function getTrip($uid)
+    {
+        return self::where(['user_id'=>$uid, 'snap_start_time' > time()])->field(['id', 'user_id', 'snap_start_time'])->select();
+    }
 }

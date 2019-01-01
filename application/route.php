@@ -141,6 +141,8 @@ Route::post('api/:version/feedback', 'xdapi/:version.User/feedback');
 Route::get('api/:version/memberinfo', 'xdapi/:version.User/memberInfo');
 //获取我的行程，支付的活动订单
 Route::get('api/:version/mytrip', 'xdapi/:version.User/getMyTrip');
+//获取我的行程日历
+Route::get('api/:version/mytripcalendar', 'xdapi/:version.User/getMyTripCalendar');
 
 
 

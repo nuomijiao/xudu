@@ -121,4 +121,20 @@ class User extends BaseController
         ]);
 
     }
+
+    //还没有开始时间的
+    public function getMyTripCalendar()
+    {
+        $uid = Token::getCurrentUid();
+        $trip = WhActOrder::getTrip($uid);
+        $newtrip = $trip->toArray();
+        $calendarArr = [];
+        foreach ($newtrip as $key => $value) {
+            if (!in_array(date("Ymd", $value['snap_start_time']), $calendarArr)) {
+                array_push($calendarArr, date("Ymd", $value['snap_start_time']));
+            }
+        }
+        return $this->xdreturn($calendarArr);
+    }
+
 }
