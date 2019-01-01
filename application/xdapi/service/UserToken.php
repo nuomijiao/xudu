@@ -26,8 +26,10 @@ class UserToken extends Token
 
     private function saveToCache($values){
         $token = self::generateToken();
-        $expire_in = config('secure.token_expire_in');
-        $result = cache($token, json_encode($values), $expire_in);
+//        $expire_in = config('secure.token_expire_in');
+//        $result = cache($token, json_encode($values), $expire_in);
+        //无限期
+        $result = cache($token, json_encode($values));
         if(!$result){
             throw new ParameterException([
                 'msg' => '服务器缓存异常',
