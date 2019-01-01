@@ -80,6 +80,12 @@ class Order extends BaseController
                 'errorCode' => 60002
             ]);
         }
+        if ($order->status != OrderStatusEnum::Paid) {
+            throw new OrderException([
+                'msg' => '活动订单已取消或退款，不能再取消',
+                'errorCode' => 60003
+            ]);
+        }
         //修改订单状态，申请退款
         $result = WhActOrder::update([
             'id' => $order->id,
