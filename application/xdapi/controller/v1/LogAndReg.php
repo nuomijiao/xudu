@@ -57,7 +57,7 @@ class LogAndReg extends BaseController
             if ($user->id) {
                 $reg = new UserToken();
                 $token = $reg->getToken($user->id);
-                return $this->xdreturn(['token'=>$token]);
+                return $this->xdreturn(['token'=>$token, 'uid'=>$user->id]);
             }
         }
     }
@@ -83,7 +83,7 @@ class LogAndReg extends BaseController
         } else {
             $log = new UserToken();
             $token = $log->getToken($user->id);
-            return $this->xdreturn(['token'=>$token]);
+            return $this->xdreturn(['token'=>$token, 'uid'=>$user->id]);
         }
     }
 
@@ -122,7 +122,7 @@ class LogAndReg extends BaseController
 
             $reg = new UserToken();
             $token = $reg->getToken($user->id);
-            return $this->xdreturn(['token'=>$token]);
+            return $this->xdreturn(['token'=>$token, 'uid'=>$user->id]);
 
         }
 
