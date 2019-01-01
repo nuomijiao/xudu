@@ -93,9 +93,12 @@ class Friends
                 'last_time' => $data['last_time'],
             ]);
         } else {
-            $data['from_id'] = $myId;
-            $data['to_id'] = $toId;
-            WhNews::create($data);
+            $whNews = new WhNews();
+            $list = [
+                ['from_id'=>$myId,'to_id'=>$toId],
+                ['to_id'=>$toId,'from_id'=>$myId]
+            ];
+            $whNews->saveAll($list);
         }
 
         $talkInfo = self::getChatInfo($myId, $toId, $page, $size);
