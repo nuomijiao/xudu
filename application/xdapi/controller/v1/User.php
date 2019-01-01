@@ -101,11 +101,24 @@ class User extends BaseController
     {
         (new PagingParameter())->goCheck();
         $uid = Token::getCurrentUid();
-        $trip = WhActOrder::getPayOrder($uid, $page, $size);
-        $newTrip = $trip->toArray()['data'];
+        $pagingTrip = WhActOrder::getPayOrder($uid, $page, $size);
+        if ($pagingTrip->isEmpty()) {
+            throw new UserException([
+                'msg' => '我的行程已见底线',
+                'errorCode' => 50009,
+            ]);
+        }
+
+        $newTrip = $pagingTrip->toArray()['data'];
         foreach ($newTrip as $key => &$value) {
             $value['act_snap'] = json_decode($value['act_snap'], true);
         }
-        return $this->xdreturn($newTrip);
+
+        return json([
+            'error_code' => 'Success',
+            'data' => $newTrip,
+            'current_page' => $pagingTrip->getCurrentPage(),
+        ]);
+
     }
 }
