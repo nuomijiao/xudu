@@ -11,6 +11,7 @@ namespace app\xdapi\model;
 
 class WhUser extends BaseModel
 {
+    protected $autoWriteTimestamp = true;
 
     public function getHeadImgAttr($value) {
         return config('setting.domain').$value;
