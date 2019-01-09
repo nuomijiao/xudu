@@ -129,6 +129,12 @@ class Friends extends BaseController
         $uid = Token::getCurrentUid();
         $request = (new SmsCode())->goCheck();
         $user = WhUser::checkUserByMobile($mobile);
+        if (!$user) {
+            throw new FriendsException([
+                'msg' => '未搜索到用户',
+                'errorCode' => 80005,
+            ]);
+        }
         return $this->xdreturn($user);
     }
 
