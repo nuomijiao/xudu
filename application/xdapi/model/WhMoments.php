@@ -60,7 +60,7 @@ class WhMoments extends BaseModel
             'thisMyZan' => function($q) use ($uid){
                 $q->where('user_id', '=', $uid);
             }
-        ])->where('user_id', 'in', $friends_ids)->order('zan_number', 'desc')->paginate($size, true, ['page' => $page]);
+        ])->where('user_id', 'in', $friends_ids)->order('create_time', 'desc')->paginate($size, true, ['page' => $page]);
     }
 
     public static function getDetail($id, $uid)
