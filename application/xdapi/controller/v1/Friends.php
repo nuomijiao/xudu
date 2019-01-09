@@ -135,7 +135,8 @@ class Friends extends BaseController
                 'errorCode' => 80005,
             ]);
         }
-        return $this->xdreturn($user);
+        $data = [$user];
+        return $this->xdreturn($data);
     }
 
     //发送消息
