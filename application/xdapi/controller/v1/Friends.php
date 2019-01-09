@@ -24,6 +24,7 @@ use app\xdapi\validate\ChatMessageNew;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\PagingParameter;
+use app\xdapi\validate\SmsCode;
 use think\Request;
 
 class Friends extends BaseController
@@ -123,10 +124,10 @@ class Friends extends BaseController
     }
 
     //通过手机号码搜索用户
-    public function getListByMobile()
+    public function getListByMobile($mobile = '')
     {
         $uid = Token::getCurrentUid();
-        $mobile = Request::instance()->param('mobile');
+        $request = (new SmsCode())->goCheck();
         $user = WhUser::checkUserByMobile($mobile);
         return $this->xdreturn($user);
     }

@@ -19,7 +19,7 @@ class WhUser extends BaseModel
 
     public static function checkUserByMobile($mobile)
     {
-        $user = self::where('mobile_number', '=', $mobile)->find();
+        $user = self::where('mobile_number', '=', $mobile)->field(['id','mobile_number','user_name', 'head_img'])->find();
         return $user;
     }
 
