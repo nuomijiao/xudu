@@ -9,6 +9,7 @@
 namespace app\xdapi\controller\v1;
 
 
+use addons\epay\library\Service;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\enum\OrderTypeEnum;
 use app\lib\exception\ActivityException;
@@ -19,15 +20,15 @@ use app\xdapi\model\WhActivity;
 use app\xdapi\model\WhActOrder;
 use app\xdapi\model\WhMemberGrade;
 use app\xdapi\model\WhMemOrder;
-use app\xdapi\model\WhUser;
+use app\xdapi\service\Order as OrderService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\NotifyOrder;
 use app\xdapi\validate\OrderActNew;
-use app\xdapi\service\Order as OrderService;
 use app\xdapi\validate\OrderMemNew;
 use think\Db;
 use think\Exception;
+use addons\epay\library\Service as PayService;
 
 class Order extends BaseController
 {
@@ -120,39 +121,135 @@ class Order extends BaseController
         return $this->xdreturn($order);
     }
 
-    public function notifyActOrder($ordersn = '')
-    {
-        (new NotifyOrder())->goCheck();
-        $order = OrderService::checkOperate('', OrderTypeEnum::Activity, $ordersn);
-        WhActOrder::update([
-            'id' => $order->id,
-            'status' => OrderStatusEnum::Paid,
-        ]);
-        throw new SuccessMessage();
-    }
+//    public function notifyActOrder($ordersn = '')
+//    {
+//        (new NotifyOrder())->goCheck();
+//        $order = OrderService::checkOperate('', OrderTypeEnum::Activity, $ordersn);
+//        WhActOrder::update([
+//            'id' => $order->id,
+//            'status' => OrderStatusEnum::Paid,
+//        ]);
+//        throw new SuccessMessage();
+//    }
+//
+//    public function notifyMemOrder($ordersn = '')
+//    {
+//        (new NotifyOrder())->goCheck();
+//        $order = OrderService::checkOperate('', OrderTypeEnum::Member, $ordersn);
+//        //处理订单信息
+//        Db::startTrans();
+//        try {
+//            //更新订单状态
+//            WhMemOrder::update([
+//                'id' => $order->id,
+//                'status' => OrderStatusEnum::Paid,
+//            ]);
+//            //修改会员时间
+//            OrderService::dealUserMemTime($order->user_id);
+//            Db::commit();
+//
+//        } catch(Exception $ex) {
+//            Db::rollback();
+//            throw $ex;
+//        }
+//        throw new SuccessMessage();
+//
+//    }
 
-    public function notifyMemOrder($ordersn = '')
+    public function wxpayNotify()
     {
-        (new NotifyOrder())->goCheck();
-        $order = OrderService::checkOperate('', OrderTypeEnum::Member, $ordersn);
-        //处理订单信息
-        Db::startTrans();
-        try {
-            //更新订单状态
-            WhMemOrder::update([
+        $pay = PayService::checkNotify('wechat');
+        if (!$pay) {
+            echo '签名错误';
+            return;
+        }
+
+//你可以直接通过$pay->verify();获取到相关信息
+//支付宝可以获取到out_trade_no,total_amount等信息
+//微信可以获取到out_trade_no,total_fee等信息
+        $data = $pay->verify();
+        $orderSn = $data['out_trade_no'];
+        if ($data['attach'] == 1) {
+            //活动订单
+            $order = OrderService::checkOperate('', OrderTypeEnum::Activity, $orderSn);
+            WhActOrder::update([
                 'id' => $order->id,
                 'status' => OrderStatusEnum::Paid,
             ]);
-            //修改会员时间
-            OrderService::dealUserMemTime($order->user_id);
-            Db::commit();
+        } elseif ($data['attach'] == 2) {
+            //会员订单
+            $order = OrderService::checkOperate('', OrderTypeEnum::Member, $orderSn);
+            //处理订单信息
+            Db::startTrans();
+            try {
+                //更新订单状态
+                WhMemOrder::update([
+                    'id' => $order->id,
+                    'status' => OrderStatusEnum::Paid,
+                ]);
+                //修改会员时间
+                OrderService::dealUserMemTime($order->user_id);
+                Db::commit();
 
-        } catch(Exception $ex) {
-            Db::rollback();
-            throw $ex;
+            } catch(Exception $ex) {
+                Db::rollback();
+                throw $ex;
+            }
         }
-        throw new SuccessMessage();
 
+
+//下面这句必须要执行,且在此之前不能有任何输出
+        echo $pay->success();
+
+        return;
+    }
+
+    public function alipayNotify()
+    {
+        $pay = PayService::checkNotify('alipay');
+        if (!$pay) {
+            echo '签名错误';
+            return;
+        }
+
+//你可以直接通过$pay->verify();获取到相关信息
+//支付宝可以获取到out_trade_no,total_amount等信息
+//微信可以获取到out_trade_no,total_fee等信息
+        $data = $pay->verify();
+        $orderSn = $data['out_trade_no'];
+        $body = explode('-', $data['body']);
+        if ($body[0] == '活动') {
+            //活动订单
+            $order = OrderService::checkOperate('', OrderTypeEnum::Activity, $orderSn);
+            WhActOrder::update([
+                'id' => $order->id,
+                'status' => OrderStatusEnum::Paid,
+            ]);
+        } elseif ($body[0] == '会员') {
+            //会员订单
+            $order = OrderService::checkOperate('', OrderTypeEnum::Member, $orderSn);
+            //处理订单信息
+            Db::startTrans();
+            try {
+                //更新订单状态
+                WhMemOrder::update([
+                    'id' => $order->id,
+                    'status' => OrderStatusEnum::Paid,
+                ]);
+                //修改会员时间
+                OrderService::dealUserMemTime($order->user_id);
+                Db::commit();
+
+            } catch(Exception $ex) {
+                Db::rollback();
+                throw $ex;
+            }
+        }
+
+//下面这句必须要执行,且在此之前不能有任何输出
+        echo $pay->success();
+
+        return;
     }
 
 }
