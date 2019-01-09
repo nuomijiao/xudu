@@ -17,12 +17,14 @@ use app\xdapi\controller\BaseController;
 use app\xdapi\model\WhFriends;
 use app\xdapi\model\WhFriendsApply;
 use app\xdapi\model\WhNews;
+use app\xdapi\model\WhUser;
 use app\xdapi\service\Friends as FriendsService;
 use app\xdapi\service\Token;
 use app\xdapi\validate\ChatMessageNew;
 use app\xdapi\validate\FriendStatus;
 use app\xdapi\validate\IDMustBePositiveInt;
 use app\xdapi\validate\PagingParameter;
+use think\Request;
 
 class Friends extends BaseController
 {
@@ -118,6 +120,15 @@ class Friends extends BaseController
             throw new FriendsException();
         }
         return $this->xdreturn($friend_list);
+    }
+
+    //通过手机号码搜索用户
+    public function getListByMobile()
+    {
+        $uid = Token::getCurrentUid();
+        $mobile = Request::instance()->param('mobile');
+        $user = WhUser::checkUserByMobile($mobile);
+        return $this->xdreturn($user);
     }
 
     //发送消息
